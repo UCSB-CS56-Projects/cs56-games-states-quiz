@@ -1,124 +1,124 @@
 <project default = "compile">
-<!--
-    build.xml for 0000770
--->
+    <!--
+        build.xml for 0000770
+    -->
 
-<property environment = "env"/>
-<property name = "user" value ="zhansaya" />
-<property name = "webRoot" value = "${env.HOME}/public_html/"/>
-<property name = "webBaseURL" value = "http://www.cs.ucsb.edu/~${user}"/>
-<property name = "project" value = "cs56_S12_0000770"/>
-<property name = "projectPath" value = "cs56/W14/StateQuiz"/>
-<property name = "javadocDest" value = "${webRoot}/${projectPath}/javadoc"/>
-<property name = "javadocURL" value = "${webBaseURL}/${projectPath}/javadoc"/>
-<property name = "main" value = "edu.ucsb.cs56.projects.games.states_quiz.GameMain"/>
-<property name = "jwsDest" value = "${webRoot}/${projectPath}/jws"/>
-<property name = "jwsURL" value = "${webBaseURL}/${projectPath}/jws"/>
-<path id = "project.class.path">
-  <pathelement location = "build"/>
-  <pathelement location = "/cs/faculty/pconrad/public_html/cs56lib/junit-4.8.2.jar"/>
-</path>
+    <property environment = "env"/>
+    <property name = "user" value ="zhansaya" />
+    <property name = "webRoot" value = "${env.HOME}/public_html/"/>
+    <property name = "webBaseURL" value = "http://www.cs.ucsb.edu/~${user}"/>
+    <property name = "project" value = "cs56_S12_0000770"/>
+    <property name = "projectPath" value = "cs56/W14/StateQuiz"/>
+    <property name = "javadocDest" value = "${webRoot}/${projectPath}/javadoc"/>
+    <property name = "javadocURL" value = "${webBaseURL}/${projectPath}/javadoc"/>
+    <property name = "main" value = "edu.ucsb.cs56.projects.games.states_quiz.GameFrame"/>
+    <property name = "jwsDest" value = "${webRoot}/${projectPath}/jws"/>
+    <property name = "jwsURL" value = "${webBaseURL}/${projectPath}/jws"/>
+    <path id = "project.class.path">
+        <pathelement location = "build"/>
+        <pathelement location = "/cs/faculty/pconrad/public_html/cs56lib/junit-4.8.2.jar"/>
+    </path>
 
-<target name = "compile" description = "Compile the map quiz">
-  <mkdir dir = "build"/>
-  <javac srcdir = "src" destdir = "build" debug = "true" debuglevel = "lines,source,vars" includeantruntime = "false">
-     <classpath>
-	<pathelement location = "build"/>
-	<pathelement location = "/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
-     </classpath>
-  </javac>
-   <copy todir="build/image">
-     <fileset dir="src/edu/ucsb/cs56/projects/games/states_quiz/image"/>
-   </copy>
-</target>
+    <target name = "compile" description = "Compile the map quiz">
+        <mkdir dir = "build"/>
+        <javac srcdir = "src" destdir = "build" debug = "true" debuglevel = "lines,source,vars" includeantruntime = "false">
+            <classpath>
+                <pathelement location = "build"/>
+                <pathelement location = "/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
+            </classpath>
+        </javac>
+        <copy todir="build/image">
+            <fileset dir="src/edu/ucsb/cs56/projects/games/states_quiz/image"/>
+        </copy>
+    </target>
 
-<target name = "clean" description = "Remove files and directories that aren't needed">
-  <delete dir = "build" quiet = "true"/>
-  <delete dir = "javadoc" quiet = "true"/>
-  <delete dir = "dist" quiet = "true"/>
-  <delete dir="download" quiet="true" />
-  <delete dir="temp" quiet="true" />
-</target>
+    <target name = "clean" description = "Remove files and directories that aren't needed">
+        <delete dir = "build" quiet = "true"/>
+        <delete dir = "javadoc" quiet = "true"/>
+        <delete dir = "dist" quiet = "true"/>
+        <delete dir="download" quiet="true" />
+        <delete dir="temp" quiet="true" />
+    </target>
 
-<target name = "javadoc" depends = "compile" description = "Create the Jacadoc">
-  <delete dir = "javadoc" quiet = "true"/>
-  <javadoc destdir = "javadoc" author = "true" version = "true" use = "true">
-    <fileset dir = "src" includes = "**/*.java"/>
-    <classpath refid = "project.class.path"/>
-  </javadoc>
-  <delete quiet = "true" dir = "${javadocDest}"/>
-  <copy todir = "${javadocDest}">
-    <fileset dir = "javadoc"/>
-  </copy>
-  <chmod dir="${javadocDest}" perm="755" type="dir" includes="**"/>
-  <chmod dir="${javadocDest}" perm="755" type="file" includes="**/*"/>
-  <echo>Javadoc deployed to ${javadocURL}</echo>
-</target>
+    <target name = "javadoc" depends = "compile" description = "Create the Jacadoc">
+        <delete dir = "javadoc" quiet = "true"/>
+        <javadoc destdir = "javadoc" author = "true" version = "true" use = "true">
+            <fileset dir = "src" includes = "**/*.java"/>
+            <classpath refid = "project.class.path"/>
+        </javadoc>
+        <delete quiet = "true" dir = "${javadocDest}"/>
+        <copy todir = "${javadocDest}">
+            <fileset dir = "javadoc"/>
+        </copy>
+        <chmod dir="${javadocDest}" perm="755" type="dir" includes="**"/>
+        <chmod dir="${javadocDest}" perm="755" type="file" includes="**/*"/>
+        <echo>Javadoc deployed to ${javadocURL}</echo>
+    </target>
 
-<target name = "run" depends = "compile" description = "Run the map quiz">
-  <java classname = "${main}" classpath = "build" fork = "true" />
-</target>
+    <target name = "run" depends = "compile" description = "Run the map quiz">
+        <java classname = "${main}" classpath = "build" fork = "true" />
+    </target>
 
-<target name = "jar" depends = "compile" description = "Create a JAR">
-  <mkdir dir = "dist"/>
-  <jar destfile = "dist/${project}.jar" basedir = "build">
-    <manifest>
-      <attribute name="Main-Class" value="${main}"/>
-    </manifest>
-  </jar>
-</target>
+    <target name = "jar" depends = "compile" description = "Create a JAR">
+        <mkdir dir = "dist"/>
+        <jar destfile = "dist/${project}.jar" basedir = "build">
+            <manifest>
+                <attribute name="Main-Class" value="${main}"/>
+            </manifest>
+        </jar>
+    </target>
 
-<target name="download" description="Publish compressed source bundle">
-  <delete quiet="true">
-    <fileset dir="temp" includes="**/*"/>
-    <fileset dir="download" includes="**/*"/>
-</delete>
-<mkdir dir="download"/>
-<mkdir dir="temp"/>
-<mkdir dir="temp/0000770"/>
-  <copy todir="temp/0000770">
-    <fileset dir="." excludes="build/**, javadoc/**, **/*~, temp/**, dist/**, download/**"/>
-  </copy>
-<tar destfile="temp/${project}.tar" basedir="temp" includes="0000770/**"/>
-<gzip zipfile="download/${project}.tgz" src="temp/${project}.tar"/>
-<zip destfile="download/${project}.zip" basedir="temp" includes="0000770/**"/>
-<delete quiet="true">
-    <fileset dir="temp" includes="**/*"/>
-</delete>
-</target>
+    <target name="download" description="Publish compressed source bundle">
+        <delete quiet="true">
+            <fileset dir="temp" includes="**/*"/>
+            <fileset dir="download" includes="**/*"/>
+        </delete>
+        <mkdir dir="download"/>
+        <mkdir dir="temp"/>
+        <mkdir dir="temp/0000770"/>
+        <copy todir="temp/0000770">
+            <fileset dir="." excludes="build/**, javadoc/**, **/*~, temp/**, dist/**, download/**"/>
+        </copy>
+        <tar destfile="temp/${project}.tar" basedir="temp" includes="0000770/**"/>
+        <gzip zipfile="download/${project}.tgz" src="temp/${project}.tar"/>
+        <zip destfile="download/${project}.zip" basedir="temp" includes="0000770/**"/>
+        <delete quiet="true">
+            <fileset dir="temp" includes="**/*"/>
+        </delete>
+    </target>
 
-<target name="jws" depends="compile,jar">
-<delete dir="${webRoot}/${projectPath}/jws"/>
-<mkdir dir="${webRoot}/${projectPath}/jws"/>
-<copy todir="${jwsDest}" file="dist/${project}.jar"/>
-<copy todir="${jwsDest}">
-<fileset dir="jws" includes="*.html"/>
-<fileset dir="jws" includes="*.jnlp"/>
-<fileset dir="jws" includes="*.png"/>
-<fileset dir="jws" includes=".htaccess"/>
-</copy>
-<echo>Java web start at ${jwsURL}</echo>
-</target>
+    <target name="jws" depends="compile,jar">
+        <delete dir="${webRoot}/${projectPath}/jws"/>
+        <mkdir dir="${webRoot}/${projectPath}/jws"/>
+        <copy todir="${jwsDest}" file="dist/${project}.jar"/>
+        <copy todir="${jwsDest}">
+            <fileset dir="jws" includes="*.html"/>
+            <fileset dir="jws" includes="*.jnlp"/>
+            <fileset dir="jws" includes="*.png"/>
+            <fileset dir="jws" includes=".htaccess"/>
+        </copy>
+        <echo>Java web start at ${jwsURL}</echo>
+    </target>
 
-<target name = "publish" depends = "jar,javadoc,download,jws">
-  <mkdir dir = "${webRoot}/${projectPath}"/>
-  <delete dir = "${webRoot}/${projectPath}/browse"/>
-  <mkdir dir = "${webRoot}/${projectPath}/browse"/>
-  
-  <delete dir="${webRoot}/${projectPath}/download" />
-  <mkdir dir="${webRoot}/${projectPath}/download" />
-   
-  <copy file = "build.xml" todir = "${webRoot}/${projectPath}/browse"/>
-  <copy todir = "${webRoot}/${projectPath}/browse/src">
-    <fileset dir = "src"/>
-  </copy>
-  <copy file = "html/index.html" todir = "${webRoot}/${projectPath}"/>
-  <copy todir = "${webRoot}/${projectPath}/download">
-    <fileset dir="download"/> 
-    <fileset dir = "dist"/>
-  </copy>
-  <chmod dir = "${webRoot}/${projectPath}" perm = "755" type = "both" includes = "**/*"/>
-  <echo> Project published to ${webBaseURL}/${projectPath}</echo>
-</target>
+    <target name = "publish" depends = "jar,javadoc,download,jws">
+        <mkdir dir = "${webRoot}/${projectPath}"/>
+        <delete dir = "${webRoot}/${projectPath}/browse"/>
+        <mkdir dir = "${webRoot}/${projectPath}/browse"/>
+
+        <delete dir="${webRoot}/${projectPath}/download" />
+        <mkdir dir="${webRoot}/${projectPath}/download" />
+
+        <copy file = "build.xml" todir = "${webRoot}/${projectPath}/browse"/>
+        <copy todir = "${webRoot}/${projectPath}/browse/src">
+            <fileset dir = "src"/>
+        </copy>
+        <copy file = "html/index.html" todir = "${webRoot}/${projectPath}"/>
+        <copy todir = "${webRoot}/${projectPath}/download">
+            <fileset dir="download"/>
+            <fileset dir = "dist"/>
+        </copy>
+        <chmod dir = "${webRoot}/${projectPath}" perm = "755" type = "both" includes = "**/*"/>
+        <echo> Project published to ${webBaseURL}/${projectPath}</echo>
+    </target>
 
 </project>
