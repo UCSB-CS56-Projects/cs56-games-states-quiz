@@ -109,3 +109,19 @@ There are several ways of how the game can be developed further:
 	- play a sound based off whether a correct or incorrect answer is selected
 	- record and analyze statistics about player performance to generate a "report" at the end of the game
 
+## F16 Final Remarks
+
+* Take the time at the beginning of the project to go through each class and fully understand how they all connect to each other (perhaps by drawing out the connections). At this stage, using an IDE could be useful to jump around the different classes and find the implementation and usages of all the functions. This will be really helpful in adding new features and refactoring the code. At first glance, it may look intuitive, but once you try to add new code, you find that there are usually more levels of the program that interact with it.
+
+* This code would benefit from more extensive commenting. Some of the variable names are straightforward, but some of them seem similar.
+
+### Ideas for Future Developers
+This game has plenty of room for improvement!
+
+	- game has quizzes for states and capitals mixed together
+	- there is an option for continent, countries quizes
+	- quizzes for states and capitals of other countries respectively
+	- record and analyze statistics about player performance to generate a "report" at the end of the game
+	- expand the high score system- add nicknames, save scores from each mode, encrypt the file
+	- implement an online chat room system
+	- add an options menu (for muting the sound effects, etc.)
