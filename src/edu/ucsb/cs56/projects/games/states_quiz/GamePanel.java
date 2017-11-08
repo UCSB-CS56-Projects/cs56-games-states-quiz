@@ -89,9 +89,9 @@ public class GamePanel extends JPanel {
         homeButton.setVisible(true);
         homeButton.setBounds(x, y, w, h);
         homeButton.addActionListener(e -> {
-            questionManager.recordHighScore();
-            reloadFrame.run();
-        });
+		questionManager.recordHighScore();
+		reloadFrame.run();
+	    });
         return homeButton;
     }
 
@@ -111,12 +111,12 @@ public class GamePanel extends JPanel {
         hintButton.setVisible(false);
         hintButton.setBounds(x, y, w, h);
         hintButton.addActionListener(e -> {
-            State state = mapPanel.getQuestionManager().getCorrectState();
-            //hintButton.setText(this.getStateQuadrant(state.getXCoord(), state.getYCoord())+"\nThe first letter of the capital is "+ getFirstLetterOfCapital(state.getCapital()));
-            String stateHint = GamePanel.this.getStateQuadrant(state.getXCoord(), state.getYCoord());
-            String capitalHint = "Capital's first letter: " + getFirstLetterOfCapital(state.getCapital());
-            hintButton.setText("<html>State is " + stateHint + " " + capitalHint + "</html>");
-        });
+		State state = mapPanel.getQuestionManager().getCorrectState();
+		//hintButton.setText(this.getStateQuadrant(state.getXCoord(), state.getYCoord())+"\nThe first letter of the capital is "+ getFirstLetterOfCapital(state.getCapital()));
+		String stateHint = GamePanel.this.getStateQuadrant(state.getXCoord(), state.getYCoord());
+		String capitalHint = "Capital's first letter: " + getFirstLetterOfCapital(state.getCapital());
+		hintButton.setText("<html>State is " + stateHint + " " + capitalHint + "</html>");
+	    });
 
         return hintButton;
     }
@@ -137,10 +137,10 @@ public class GamePanel extends JPanel {
         questionScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         questionScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         questionScrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
-            public void adjustmentValueChanged(AdjustmentEvent e) {
-                e.getAdjustable().setValue(e.getAdjustable().getMaximum());
-            }
-        });
+		public void adjustmentValueChanged(AdjustmentEvent e) {
+		    e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+		}
+	    });
         textArea.setFont(font);
         textArea.setEditable(false);
         textArea.append(text);
