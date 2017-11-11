@@ -153,7 +153,7 @@ public class QuestionManager {
 	    }
 	}
     }
-
+    
     public void recordHighScore() {
 	File file = new File("high_score.txt");
 	try {
@@ -168,7 +168,20 @@ public class QuestionManager {
 	    e.printStackTrace();
 	}
     }
+    
 
+    /*
+    public void recordHighScore() {
+	File file = new File("high_score.txt");
+	try {
+	    
+
+	} catch(IOException e) {
+	    e.printStackTrace();
+	}
+    }
+    */
+    
     /**
      * Receives the answer from MapPanel and checks to see if the answer is
      * equivalent to the current state. Prints out the current score and
@@ -211,10 +224,11 @@ public class QuestionManager {
 
             gamePanel.setHintButtonVisible(false);
 
-	    if (guesses == 0)
-		currentScore++;
-	    else
-		this.guesses = 0;
+	    currentScore+=10;
+	    //currentScore-=(guesses*2);
+	    this.guesses = 0;
+	    
+		
 	    gamePanel.appendQuestionTextArea("Your current score is: " + currentScore + "\n");
 	    this.askNextQuestion();
 	    return true;
@@ -224,6 +238,7 @@ public class QuestionManager {
 		answerButton.setVisible(false);
 		this.hiddenButtons.add(answerButton);
 	    }
+	    
 	    guesses++;
 	    if (guesses == 3)
 		gamePanel.setHintButtonVisible(true);
@@ -238,10 +253,10 @@ public class QuestionManager {
                 }
             }
             if (getGameMode().equals("States") || getGameMode().equals("States then Capitals")) {
-                gamePanel.getQuestionTextArea().setText("Nope! That was " + stateChosen + "! Total guesses: " + this.guesses + "\n");
+                gamePanel.getQuestionTextArea().setText("Nope! That was " + stateChosen + "! ");
             }
             else if (getGameMode().equals("Capitals")) {
-                gamePanel.getQuestionTextArea().setText("Nope! That was " + capitalChosen + "! Total guesses: " + this.guesses + "\n");
+                gamePanel.getQuestionTextArea().setText("Nope! That was " + capitalChosen + "! ");
             }
             this.askNextQuestion();
             return false;
@@ -265,6 +280,12 @@ public class QuestionManager {
 	    guesses++;
 	}
 	return answer;
+    }
+
+    public void isHintButtonClicked(boolean hintButtonClicked) {
+	if (hintButtonClicked){
+	    this.currentScore-=2;
+	}
     }
 
     /**

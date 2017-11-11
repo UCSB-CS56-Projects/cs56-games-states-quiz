@@ -113,11 +113,20 @@ public class GamePanel extends JPanel {
         hintButton.addActionListener(e -> {
 		State state = mapPanel.getQuestionManager().getCorrectState();
 		//hintButton.setText(this.getStateQuadrant(state.getXCoord(), state.getYCoord())+"\nThe first letter of the capital is "+ getFirstLetterOfCapital(state.getCapital()));
-		String stateHint = GamePanel.this.getStateQuadrant(state.getXCoord(), state.getYCoord());
+		String stateHint;
+		if (state.getName().equals("Alaska")) {
+		    stateHint = "Northwest";
+		    System.out.println("Alaska");
+		}
+		else {
+		    stateHint = GamePanel.this.getStateQuadrant(state.getXCoord(), state.getYCoord());
+		}
+		
 		String capitalHint = "Capital's first letter: " + getFirstLetterOfCapital(state.getCapital());
 		hintButton.setText("<html>State is " + stateHint + " " + capitalHint + "</html>");
+		questionManager.isHintButtonClicked(true);
 	    });
-
+	
         return hintButton;
     }
 
