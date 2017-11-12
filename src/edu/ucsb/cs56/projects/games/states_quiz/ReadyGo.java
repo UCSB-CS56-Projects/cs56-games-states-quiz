@@ -4,14 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-/**                                                                                                    
- * Provides method to start ready set go texts                                                        \
-                                                                                                       
- * @author Diana Reyes                                                                                 
+/**                                                                                    
+ * Provides method to start ready set go texts                                                             
+ * @author Diana Reyes                                                                 
  */
 public class ReadyGo extends JLabel {
-
-
     private String ready = "Ready?";
     private String set = "Set.";
     private String go = "GO!";
@@ -22,7 +19,6 @@ public class ReadyGo extends JLabel {
     public ReadyGo(int x, int y, int width, int height) {
         super();
         setBounds(x, y, width, height);
-
         setVisible(true);
     }
     public void readyGoStart(){
@@ -37,9 +33,9 @@ public class ReadyGo extends JLabel {
             if(pretime == 2){
                 setText(go);
             }
-            if (pretime >= 3){
-                setText("");
-            }
+	    if (pretime >= 3){
+	        setText("");
+	    }
             pretime = pretime + 1;
         };
         Timer timer2 = new Timer(2000, task);
@@ -47,4 +43,3 @@ public class ReadyGo extends JLabel {
         timer2.start();
     }
 }
-

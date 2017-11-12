@@ -8,6 +8,7 @@ import javax.swing.*;
  * Provides method to start stopwatch.
  *
  * @author Vincent Wang, Veena Chandran
+ * @author Diana Reyes
  */
 public class StopWatch extends JLabel {
 
@@ -16,15 +17,16 @@ public class StopWatch extends JLabel {
     public StopWatch(int x, int y, int width, int height) {
         super();
         setBounds(x, y, width, height);
-     
         setVisible(true);
-    }
+
+           }
 
     /**
-     * Starts the stopwatch!
+     * Starts the stopwatch
      */
 
     public void start() {
+
         ActionListener task = evt -> {
             int minutes = time/60;
             int seconds = time%60;
@@ -50,8 +52,6 @@ public class StopWatch extends JLabel {
 
 
     }
-
-
 
     public void addPenalty() {
         time += 3;

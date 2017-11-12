@@ -20,8 +20,8 @@ import javax.swing.JOptionPane;
  * @author Ryan Allen
  * @author Ryan Kemper
  * @author Diana Reyes
- */
-
+ * @author Lindsey Nguyen
+ **/
 public class QuestionManager {
     protected GamePanel gamePanel;
     protected MapPanel mapPanel;
@@ -33,6 +33,7 @@ public class QuestionManager {
     protected int randIndex;
     protected int currentScore;
     protected int guesses = 0;
+
 
     protected ArrayList<State> states;
     protected ArrayList<Integer> randStateIndexes;
@@ -135,18 +136,47 @@ public class QuestionManager {
 	 * Asks the next question if the question counter is less than 50. Prints
 	 * out the current state.
 	 */
-	public void askNextQuestion() {
-		if (!randStateIndexes.isEmpty()) {
+    public int getRandStateIndex(){
+	return this.randStateIndexes.size();
+    }
+    public void askNextQuestion() {
+	  	    
+	     
+	   if (!randStateIndexes.isEmpty()) {
 			if (Objects.equals(getGameMode(), "Capitals")) {
 				gamePanel.appendQuestionTextArea("Click on: " + states.get(currentQuestion).getCapital() + "\n");
 			} else {
 				gamePanel.appendQuestionTextArea("Click on: " + states.get(currentQuestion).getName() + "\n");
-			}
+							}
 			mapPanel.setAnswer(mapPanel.stateButtons[currentQuestion]);
-		} else {
-		    endRound();
 		}
+	   else{
+	       endRound();
+	   }
+	     
+		
 	}
+
+ 
+    /**
+     *Ends the game round. Gives the option to play again.
+     */
+    public void endRound(){
+	mapPanel.getSoundManager().playCompletedSound();
+	gamePanel.appendQuestionTextArea("Round has ended!");
+	recordHighScore();
+	int n = JOptionPane.showConfirmDialog(
+					      gamePanel.getParent(),
+					      "Would you like to play again?",
+					      "Congratulations!",
+					      JOptionPane.YES_NO_OPTION);
+	if (n == JOptionPane.NO_OPTION){
+	    System.exit(0);
+	}
+	else {
+	    reloadFrame.run();
+	}
+    }
 
     /**                                                                                                
      *Ends the game round. Gives the option to play again.                                             
@@ -168,7 +198,7 @@ public class QuestionManager {
         }
     }
 
-	public void recordHighScore() {
+    public void recordHighScore() {
 		File file = new File("high_score.txt");
 		try {
 			// Get current high score
@@ -196,7 +226,6 @@ public class QuestionManager {
 			if (getGameMode().equals("States then Capitals")) {
 				answer = checkCapital();
 			}
-		    
 
 			String message;
 			if (answer == null) {
@@ -218,6 +247,7 @@ public class QuestionManager {
             }
 
             randStateIndexes.remove(randIndex);
+
 	    
             if (!randStateIndexes.isEmpty()) {
 
@@ -255,11 +285,12 @@ public class QuestionManager {
 
             gamePanel.setHintButtonVisible(false);
 
-			if (guesses == 0)
+	    if (guesses == 0)
 				currentScore++;
-			else
+	    else
 				this.guesses = 0;
 			gamePanel.appendQuestionTextArea("Your current score is: " + currentScore + "\n");
+		      
 			this.askNextQuestion();
 			return true;
 		} else {
@@ -271,9 +302,11 @@ public class QuestionManager {
 			guesses++;
 			if (guesses == 3)
 				gamePanel.setHintButtonVisible(true);
-
+			
             String stateChosen = "";
             String capitalChosen = "";
+
+	
             for (int i = 0; i < 50; i++) {
                 if (answerButton == mapPanel.stateButtons[i]) {
                     stateChosen = states.get(i).getName();
@@ -281,6 +314,8 @@ public class QuestionManager {
                     break;
                 }
             }
+	    
+		
             if (getGameMode().equals("States") || getGameMode().equals("States then Capitals")) {
                 gamePanel.getQuestionTextArea().setText("Nope! That was " + stateChosen + "! Total guesses: " + this.guesses + "\n");
             }
@@ -291,7 +326,7 @@ public class QuestionManager {
             return false;
         }
     }
-
+	
 	/**
 	 * Called when in StateThenCapitals mode
 	 * Continuously loops until the capital is entered correctly
@@ -303,6 +338,7 @@ public class QuestionManager {
 			gamePanel.appendQuestionTextArea("Capital is Incorrect! ");
 			answer = askCapital();
 			this.guesses++;
+			
 			gamePanel.getStopWatch().addPenalty();
 		}
 		if (answer == AnswerOption.NO_ANSWER) {
@@ -319,7 +355,7 @@ public class QuestionManager {
      */
 
 	private AnswerOption askCapital() {
-		String s = JOptionPane.showInputDialog(
+	    String s = JOptionPane.showInputDialog(
 				gamePanel.getParent(),
 				"Enter the capital of " + states.get(currentQuestion).getName() + ":",
 				"Capital Input",

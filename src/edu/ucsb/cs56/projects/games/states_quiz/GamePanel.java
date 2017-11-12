@@ -32,9 +32,8 @@ public class GamePanel extends JPanel {
     private MapPanel mapPanel;
     private JPanel panel;
     private JTextArea questionTextArea; // text area on bottom where question displays
-    
+
     private JScrollPane questionScrollPane;
-  
     private JButton hintButton;
     private Runnable reloadFrame;
     private QuestionManager questionManager;
@@ -54,12 +53,12 @@ public class GamePanel extends JPanel {
         int hintX = (int) (.77 * SCREEN_WIDTH);
         int hintY = (int) (.7 * SCREEN_HEIGHT); 
         hintButton = this.generateHintButton(hintX, hintY, 180, 60, "Click For Hint");
-        mapPanel.add(hintButton);
-
+	mapPanel.add(hintButton);
         int homeX = (int) (.77 * SCREEN_WIDTH);
         int homeY = (int) (.55 * SCREEN_HEIGHT);
         JButton homeButton = this.generateHomeButton(homeX, homeY, 180, 60, "Main Menu");
         mapPanel.add(homeButton);
+	
 
         this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -69,7 +68,6 @@ public class GamePanel extends JPanel {
         this.add(mapPanel, BorderLayout.CENTER);
 
         this.add(questionScrollPane, BorderLayout.SOUTH);
-  
 
         stopWatch = new StopWatch((int) (.8 * SCREEN_WIDTH), (int) (.4 * SCREEN_HEIGHT), 180, 80);
         mapPanel.add(stopWatch);
@@ -99,7 +97,7 @@ public class GamePanel extends JPanel {
         });
         return homeButton;
     }
-
+    
     /**
      * @param x    x coord of hintButton
      * @param y    y coord of hintButton
@@ -117,7 +115,7 @@ public class GamePanel extends JPanel {
         hintButton.setBounds(x, y, w, h);
         hintButton.addActionListener(e -> {
             State state = mapPanel.getQuestionManager().getCorrectState();
-            //hintButton.setText(this.getStateQuadrant(state.getXCoord(), state.getYCoord())+"\nThe first letter of the capital is "+ getFirstLetterOfCapital(state.getCapital()));
+            hintButton.setText(this.getStateQuadrant(state.getXCoord(), state.getYCoord())+"\nThe first letter of the capital is "+ getFirstLetterOfCapital(state.getCapital()));
             String stateHint = GamePanel.this.getStateQuadrant(state.getXCoord(), state.getYCoord());
             String capitalHint = "Capital's first letter: " + getFirstLetterOfCapital(state.getCapital());
             hintButton.setText("<html>State is " + stateHint + " " + capitalHint + "</html>");
@@ -153,8 +151,6 @@ public class GamePanel extends JPanel {
 
         return textArea;
     }
-
-   
 
     /**
      * Called by QuestionManager when number of guesses hits 3
@@ -192,8 +188,6 @@ public class GamePanel extends JPanel {
     public void setQuestionTextArea(String text) {
         questionTextArea.setText(text);
     }
-
-    
 
     /**
      * @return mapPanel panel of the map

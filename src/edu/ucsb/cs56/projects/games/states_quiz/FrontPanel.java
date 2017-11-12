@@ -79,11 +79,10 @@ public class FrontPanel extends JPanel {
 		normalButton = new JRadioButton("Normal");
 		hardButton = new JRadioButton("Hard");
 
-		easyDescription = new JLabel("<html>"+"-10 states-"+"<html>");
-                normalDescription = new JLabel("<html>"+"-25 states-"+"<html>");
-                hardDescription = new JLabel("<html>"+"-50 states-"+"<html>");
-
-
+	        easyDescription = new JLabel("<html>"+"-10 states-"+"<html>");
+		normalDescription = new JLabel("<html>"+"-25 states-"+"<html>");
+		hardDescription = new JLabel("<html>"+"-50 states-"+"<html>");
+        
 		easyButton.setActionCommand("Easy");
 		normalButton.setActionCommand("Normal");
 		hardButton.setActionCommand("Hard");
@@ -97,6 +96,13 @@ public class FrontPanel extends JPanel {
 		difficulties.add(easyButton);
 		difficulties.add(normalButton);
 		difficulties.add(hardButton);
+
+	        easyDescription.setLocation(700, 320);
+		easyDescription.setSize(80, 80);
+		normalDescription.setLocation(700, 370);
+		normalDescription.setSize(80, 80);
+		hardDescription.setLocation(700, 420);
+		hardDescription.setSize(80, 80);
 
 		title.setBounds(100, 80, 800, 200);
 		stateButton.setBounds(340, 280, 300, 100);
@@ -138,6 +144,10 @@ public class FrontPanel extends JPanel {
 		add(normalButton);
 		add(hardButton);
 
+		add(easyDescription);
+		add(normalDescription);
+		add(hardDescription);
+		
 		setVisible(true);
 		repaint();
 	}
