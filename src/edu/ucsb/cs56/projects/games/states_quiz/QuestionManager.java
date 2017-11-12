@@ -168,19 +168,14 @@ public class QuestionManager {
 	    e.printStackTrace();
 	}
     }
-    
 
-    /*
-    public void recordHighScore() {
-	File file = new File("high_score.txt");
-	try {
-	    
+    public void addTimeBonus(int time) {
+	if (time > 10){
 
-	} catch(IOException e) {
-	    e.printStackTrace();
 	}
     }
-    */
+    
+    
     
     /**
      * Receives the answer from MapPanel and checks to see if the answer is
@@ -224,8 +219,9 @@ public class QuestionManager {
 
             gamePanel.setHintButtonVisible(false);
 
+	    
 	    currentScore+=10;
-	    //currentScore-=(guesses*2);
+	    currentScore-=(guesses*2);
 	    this.guesses = 0;
 	    
 		
