@@ -11,12 +11,12 @@ import javax.swing.*;
  */
 public class StopWatch extends JLabel {
 
-    private int seconds = 0;
+    private int time = 0;
 
     public StopWatch(int x, int y, int width, int height) {
         super();
         setBounds(x, y, width, height);
-        setText("Time Elapsed: 00 s");
+     
         setVisible(true);
     }
 
@@ -26,15 +26,34 @@ public class StopWatch extends JLabel {
 
     public void start() {
         ActionListener task = evt -> {
-            seconds++;
-            setText("Time Elapsed: " + seconds + " s");
+            int minutes = time/60;
+            int seconds = time%60;
+
+            time = time + 1;
+
+
+
+            if (seconds <= 9){
+
+            setText("Time Elapsed: "+ minutes + ":0" + seconds);
+            }
+            else{
+                setText("Time Elapsed: "+ minutes + ":" + seconds);
+            }
+
+
+
         };
-        Timer timer = new Timer(1000, task); // Execute task each 1000 milliseconds
-        timer.setRepeats(true);
+        Timer timer = new Timer(1000, task); // Execute task each 1000 milliseconds                    
+        setOpaque(true);
         timer.start();
+
+
     }
 
+
+
     public void addPenalty() {
-        seconds += 2;
+        time += 3;
     }
 }

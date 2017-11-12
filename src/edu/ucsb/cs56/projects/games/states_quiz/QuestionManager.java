@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
  * @author Nick Eidler
  * @author Ryan Allen
  * @author Ryan Kemper
+ * @author Diana Reyes
  */
 
 public class QuestionManager {
@@ -97,6 +98,11 @@ public class QuestionManager {
         return this.difficulty;
     }
 
+    public int getRandStateIndex(){
+        return this.randStateIndexes.size();
+    }
+
+
     /**
      * Called by the GameFrame when the game starts
      *
@@ -138,21 +144,29 @@ public class QuestionManager {
 			}
 			mapPanel.setAnswer(mapPanel.stateButtons[currentQuestion]);
 		} else {
-			mapPanel.getSoundManager().playCompletedSound();
-			gamePanel.appendQuestionTextArea("You're finished! Yay!");
-			recordHighScore();
-			int n = JOptionPane.showConfirmDialog(
-					gamePanel.getParent(),
-					"Would you like to play again?",
-					"Congratulations!",
-					JOptionPane.YES_NO_OPTION);
-			if (n == JOptionPane.NO_OPTION) {
-				System.exit(0);
-			} else {
-				reloadFrame.run();
-			}
+		    endRound();
 		}
 	}
+
+    /**                                                                                                
+     *Ends the game round. Gives the option to play again.                                             
+     */
+    public void endRound(){
+        mapPanel.getSoundManager().playCompletedSound();
+        gamePanel.appendQuestionTextArea("Round has ended!");
+        recordHighScore();
+        int n = JOptionPane.showConfirmDialog(
+                                              gamePanel.getParent(),
+                                              "Would you like to play again?",
+                                              "Congratulations!",
+                                              JOptionPane.YES_NO_OPTION);
+        if (n == JOptionPane.NO_OPTION){
+            System.exit(0);
+        }
+        else {
+            reloadFrame.run();
+        }
+    }
 
 	public void recordHighScore() {
 		File file = new File("high_score.txt");
@@ -182,7 +196,7 @@ public class QuestionManager {
 			if (getGameMode().equals("States then Capitals")) {
 				answer = checkCapital();
 			}
-			gamePanel.setAnswerTextArea(states.get(currentQuestion).getName());
+		    
 
 			String message;
 			if (answer == null) {
@@ -204,10 +218,40 @@ public class QuestionManager {
             }
 
             randStateIndexes.remove(randIndex);
+	    
             if (!randStateIndexes.isEmpty()) {
-                randIndex = (int) (Math.random() * (randStateIndexes.size() - 1));
-                currentQuestion = randStateIndexes.get(randIndex);
-            }
+
+		 if (this.getDifficulty().equals("Easy"))
+                {
+                    if (getRandStateIndex() > 40) {
+			randIndex = (int) (Math.random() * (randStateIndexes.size() - 1));
+			currentQuestion = randStateIndexes.get(randIndex);
+		    }
+		    else{
+			endRound();
+		    }
+		}
+		 if (this.getDifficulty().equals("Normal"))
+                {
+                    if (getRandStateIndex() > 25) {
+                        randIndex = (int) (Math.random() * (randStateIndexes.size() - 1));
+                        currentQuestion = randStateIndexes.get(randIndex);
+                    }
+                    else {
+                        endRound();
+                    }
+                }
+            if (this.getDifficulty().equals("Hard"))
+                {
+                    if (!randStateIndexes.isEmpty()) {
+                        randIndex = (int) (Math.random() * (randStateIndexes.size() - 1));
+                        currentQuestion = randStateIndexes.get(randIndex);
+                    }
+                    else {
+                        endRound();
+                    }
+		}
+	    }
 
             gamePanel.setHintButtonVisible(false);
 

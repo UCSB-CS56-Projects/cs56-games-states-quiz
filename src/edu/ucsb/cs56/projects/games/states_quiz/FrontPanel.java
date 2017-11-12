@@ -24,11 +24,16 @@ import javax.swing.JRadioButton;
  * @author Nick Eidler
  * @author Ryan Allen
  * @author Ryan Kemper
+ * @author Diana Reyes
  */
 
 public class FrontPanel extends JPanel {
 	private BufferedImage map;
 	private JLabel highScore;
+        private JLabel easyDescription;
+        private JLabel normalDescription;
+        private JLabel hardDescription;
+
 	private JButton stateButton;
 	private JButton capitalButton;
 	private JButton stateThenCapitalButton;
@@ -74,6 +79,11 @@ public class FrontPanel extends JPanel {
 		normalButton = new JRadioButton("Normal");
 		hardButton = new JRadioButton("Hard");
 
+		easyDescription = new JLabel("<html>"+"-10 states-"+"<html>");
+                normalDescription = new JLabel("<html>"+"-25 states-"+"<html>");
+                hardDescription = new JLabel("<html>"+"-50 states-"+"<html>");
+
+
 		easyButton.setActionCommand("Easy");
 		normalButton.setActionCommand("Normal");
 		hardButton.setActionCommand("Hard");
@@ -93,6 +103,14 @@ public class FrontPanel extends JPanel {
 		capitalButton.setBounds(340, 400, 300, 100);
 		stateThenCapitalButton.setBounds(340, 520, 300, 100);
 
+		easyDescription.setLocation(700, 320);
+                easyDescription.setSize(80, 80);
+                normalDescription.setLocation(700, 370);
+                normalDescription.setSize(80, 80);
+                hardDescription.setLocation(700, 420);
+                hardDescription.setSize(80, 80);
+
+
 		highScore.setBounds(
 				(GamePanel.SCREEN_WIDTH - highScore.getPreferredSize().width) / 2,
 				title.getY() + 140,
@@ -110,6 +128,10 @@ public class FrontPanel extends JPanel {
 		add(stateButton);
 		add(capitalButton);
 		add(stateThenCapitalButton);
+
+		add(easyDescription);
+                add(normalDescription);
+                add(hardDescription);
 
 		add(diffHeader);
 		add(easyButton);
