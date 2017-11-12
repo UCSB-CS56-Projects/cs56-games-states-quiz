@@ -168,13 +168,6 @@ public class QuestionManager {
 	    e.printStackTrace();
 	}
     }
-
-    public void addTimeBonus(int time) {
-	if (time > 10){
-
-	}
-    }
-    
     
     
     /**
