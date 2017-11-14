@@ -89,9 +89,9 @@ public class GamePanel extends JPanel {
         homeButton.setVisible(true);
         homeButton.setBounds(x, y, w, h);
         homeButton.addActionListener(e -> {
-            questionManager.recordHighScore();
-            reloadFrame.run();
-        });
+		questionManager.recordHighScore();
+		reloadFrame.run();
+	    });
         return homeButton;
     }
 
@@ -111,13 +111,13 @@ public class GamePanel extends JPanel {
         hintButton.setVisible(false);
         hintButton.setBounds(x, y, w, h);
         hintButton.addActionListener(e -> {
-            State state = mapPanel.getQuestionManager().getCorrectState();
-            //hintButton.setText(this.getStateQuadrant(state.getXCoord(), state.getYCoord())+"\nThe first letter of the capital is "+ getFirstLetterOfCapital(state.getCapital()));
-            String stateHint = GamePanel.this.getStateQuadrant(state.getXCoord(), state.getYCoord());
-            String capitalHint = "Capital's first letter: " + getFirstLetterOfCapital(state.getCapital());
-            hintButton.setText("<html>State is " + stateHint + " " + capitalHint + "</html>");
-        });
-
+		State state = mapPanel.getQuestionManager().getCorrectState();
+		String stateHint = state.getQuadrant();
+		String capitalHint = "Capital's first letter: " + getFirstLetterOfCapital(state.getCapital());
+		hintButton.setText("<html>State is " + stateHint + " " + capitalHint + "</html>");
+		questionManager.isHintButtonClicked(true);
+	    });
+	
         return hintButton;
     }
 
@@ -137,10 +137,10 @@ public class GamePanel extends JPanel {
         questionScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         questionScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         questionScrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
-            public void adjustmentValueChanged(AdjustmentEvent e) {
-                e.getAdjustable().setValue(e.getAdjustable().getMaximum());
-            }
-        });
+		public void adjustmentValueChanged(AdjustmentEvent e) {
+		    e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+		}
+	    });
         textArea.setFont(font);
         textArea.setEditable(false);
         textArea.append(text);
@@ -228,28 +228,6 @@ public class GamePanel extends JPanel {
      */
     public MapPanel getMapPanel() {
         return this.mapPanel;
-    }
-
-    /**
-     * @param x x value of state
-     * @param y y value of state
-     * @return String with quadrant (north-south/east-west) of state
-     */
-    public String getStateQuadrant(int x, int y) {
-        String quadrant = "";
-        //Decide north or south
-        if (y <= MAP_Y_BOUND / 2) {
-            quadrant += "North";
-        } else {
-            quadrant += "South";
-        }
-        //Decide east or west
-        if (x <= MAP_X_BOUND / 2) {
-            quadrant += "west";
-        } else {
-            quadrant += "east";
-        }
-        return quadrant;
     }
 
     public String getFirstLetterOfCapital(String capital) {

@@ -28,122 +28,122 @@ import javax.swing.JPanel;
 
 public class MapPanel extends JPanel implements ActionListener {
 
-	public static final String STATES_FILE_NAME = "States.txt";
-	public static final int NUM_STATES = 50;
+    public static final String STATES_FILE_NAME = "States.txt";
+    public static final int NUM_STATES = 50;
 
-	public JButton[] stateButtons;
-	public ArrayList<State> statesArray;
-	public int totalscore = 0;
-	public JButton answer;
+    public JButton[] stateButtons;
+    public ArrayList<State> statesArray;
+    public int totalscore = 0;
+    public JButton answer;
 
-	private QuestionManager questionManager;
-	private Country c;
-	private BufferedImage map;
+    private QuestionManager questionManager;
+    private Country c;
+    private BufferedImage map;
 
-	private SoundManager soundManager;
+    private SoundManager soundManager;
 
-	public MapPanel() {
+    public MapPanel() {
 
-		this.setLayout(null);
+	this.setLayout(null);
 
-		try {
-			map = ImageIO.read(getClass().getClassLoader().getResource("image/map-of-united-states.jpg"));
-		} catch (IOException ie) {
-			ie.printStackTrace();
-		}
-		this.repaint();
+	try {
+	    map = ImageIO.read(getClass().getClassLoader().getResource("image/map-of-united-states.jpg"));
+	} catch (IOException ie) {
+	    ie.printStackTrace();
+	}
+	this.repaint();
 
-		stateButtons = new JButton[NUM_STATES];
+	stateButtons = new JButton[NUM_STATES];
 
-		int x = 0;
-		int y = 0;
-		int width = 25;
-		int height = 25;
+	int x = 0;
+	int y = 0;
+	int width = 25;
+	int height = 25;
 
-		File fileName = new File(STATES_FILE_NAME);
+	File fileName = new File(STATES_FILE_NAME);
 
-		c = new Country();
-		try {
-			c.addStates(NUM_STATES, fileName);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		statesArray = c.getStatesArray();
-
-		soundManager = new SoundManager();
-
-		for (int i = 0; i < statesArray.size(); i++) {
-			stateButtons[i] = new JButton();
-			this.add(stateButtons[i]);
-
-			x = statesArray.get(i).getXCoord();
-			y = statesArray.get(i).getYCoord();
-
-			stateButtons[i].setBounds(x, y, width, height);
-			stateButtons[i].addActionListener(this);
-		}
-
-
+	c = new Country();
+	try {
+	    c.addStates(NUM_STATES, fileName);
+	} catch (Exception e) {
+	    e.printStackTrace();
 	}
 
-	/**
-	 * @param g Graphics object that prints the image of the map
-	 */
+	statesArray = c.getStatesArray();
 
-	public void paintComponent(Graphics g) {
-		g.drawImage(map, 0, 0, this);
+	soundManager = new SoundManager();
+
+	for (int i = 0; i < statesArray.size(); i++) {
+	    stateButtons[i] = new JButton();
+	    this.add(stateButtons[i]);
+
+	    x = statesArray.get(i).getXCoord();
+	    y = statesArray.get(i).getYCoord();
+
+	    stateButtons[i].setBounds(x, y, width, height);
+	    stateButtons[i].addActionListener(this);
 	}
 
-	/**
-	 * @return QuestionManager
-	 */
 
-	public QuestionManager getQuestionManager() {
-		return this.questionManager;
+    }
+
+    /**
+     * @param g Graphics object that prints the image of the map
+     */
+
+    public void paintComponent(Graphics g) {
+	g.drawImage(map, 0, 0, this);
+    }
+
+    /**
+     * @return QuestionManager
+     */
+
+    public QuestionManager getQuestionManager() {
+	return this.questionManager;
+    }
+
+    /**
+     * @param qm Represents the questionManager being made
+     */
+
+    public void setQuestionManager(QuestionManager qm) {
+	this.questionManager = qm;
+    }
+
+    /**
+     * @param button button that was clicked by a user
+     */
+
+    public void setAnswer(JButton button) {
+	this.answer = button;
+    }
+
+    /**
+     * Sends the button clicked to QuestionManager.
+     *
+     * @param e ActionEvent if user answered the question
+     */
+
+    public void actionPerformed(ActionEvent e) {
+	boolean answeredCorrectly = questionManager.mapClickCallback(e.getSource());
+	if (answeredCorrectly) {
+	    soundManager.playCorrectSound();
+	} else {
+	    soundManager.playIncorrectSound();
 	}
+    }
 
-	/**
-	 * @param qm Represents the questionManager being made
-	 */
+    /**
+     * @return Country object
+     */
 
-	public void setQuestionManager(QuestionManager qm) {
-		this.questionManager = qm;
-	}
+    public Country getCountry() {
+	return c;
+    }
 
-	/**
-	 * @param button button that was clicked by a user
-	 */
-
-	public void setAnswer(JButton button) {
-		this.answer = button;
-	}
-
-	/**
-	 * Sends the button clicked to QuestionManager.
-	 *
-	 * @param e ActionEvent if user answered the question
-	 */
-
-	public void actionPerformed(ActionEvent e) {
-		boolean answeredCorrectly = questionManager.mapClickCallback(e.getSource());
-		if (answeredCorrectly) {
-			soundManager.playCorrectSound();
-		} else {
-			soundManager.playIncorrectSound();
-		}
-	}
-
-	/**
-	 * @return Country object
-	 */
-
-	public Country getCountry() {
-		return c;
-	}
-
-	public SoundManager getSoundManager() {
-		return soundManager;
-	}
+    public SoundManager getSoundManager() {
+	return soundManager;
+    }
 
 }

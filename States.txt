@@ -1,50 +1,49 @@
-Alabama,Montgomery,495,310
-Alaska,Juneau,209,429
-Arizona,Phoenix,150,281
-Arkansas,Little Rock,410,274
-California,Sacramento,51,216
-Colorado,Denver,245,205
-Connecticut,Hartford,687,141
-Delaware,Dover,670,196
-Florida,Tallahassee,584,380
-Georgia,Atlanta,544,306
-Hawaii,Honolulu,507,455
-Idaho,Boise,137,110
-Illinois,Springfield,445,193
-Indiana,Indianapolis,482,185
-Iowa,Des Moines,398,163
-Kansas,Topeka,315,211
-Kentucky,Frankfort,514,222
-Louisiana,Baton Rouge,415,336
-Maine,Augusta,677,51
-Maryland,Annapolis,668,227
-Massachusetts,Boston,686,81
-Michigan,Lansing,494,122
-Minnesota,St. Paul,383,83
-Mississippi,Jackson,450,300
-Missouri,Jefferson City,410,226
-Montana,Helena,195,70
-Nebraska,Lincoln,315,167
-Nevada,Carson City,101,168
-New Hampshire,Concord,638,14
-New Jersey,Trenton,675,173
-New Mexico,Santa Fe,218,282
-New York,Albany,603,121
-North Carolina,Raleigh,601,248
-North Dakota,Bismarck,315,68
-Ohio,Columbus,520,175
-Oklahoma,Oklahoma City,356,274
-Oregon,Salem,67,93
-Pennsylvania,Harrisburg,580,153
-Rhode Island,Providence,685,109
-South Carolina,Columbia,578,282
-South Dakota,Pierre,318,118
-Tennessee,Nashville,491,255
-Texas,Austin,305,336
-Utah,Salt Lake City,162,190
-Vermont,Montpelier,598,27
-Virginia,Richmond,595,213
-Washington,Olympia,86,30
-West Virginia,Charleston,548,200
-Wisconsin,Madison,433,120
-Wyoming,Cheyenne,226,134
+Alaska,Juneau,209,429,Northwest
+Arizona,Phoenix,150,281,Northwest
+Arkansas,Little Rock,410,274,Northeast
+California,Sacramento,51,216,Northwest
+Colorado,Denver,245,205,Northeast
+Connecticut,Hartford,687,141,Northeast
+Delaware,Dover,670,196,Northeast
+Florida,Tallahassee,584,380,Southeast
+Georgia,Atlanta,544,306,Northeast
+Hawaii,Honolulu,507,455,Southeast
+Idaho,Boise,137,110,Northwest
+Illinois,Springfield,445,193,Northeast
+Indiana,Indianapolis,482,185,Northeast
+Iowa,Des Moines,398,163,Northeast
+Kansas,Topeka,315,211,Northeast
+Kentucky,Frankfort,514,222,Northeast
+Louisiana,Baton Rouge,415,336,Northeast
+Maine,Augusta,677,51,Northeast
+Maryland,Annapolis,668,227,Northeast
+Massachusetts,Boston,686,81,Northeast
+Michigan,Lansing,494,122,Northeast
+Minnesota,St. Paul,383,83,Northeast
+Mississippi,Jackson,450,300,Northeast
+Missouri,Jefferson City,410,226,Northeast
+Montana,Helena,195,70,Northwest
+Nebraska,Lincoln,315,167,Northeast
+Nevada,Carson City,101,168,Northwest
+New Hampshire,Concord,638,14,Northeast
+New Jersey,Trenton,675,173,Northeast
+New Mexico,Santa Fe,218,282,Northwest
+New York,Albany,603,121,Northeast
+North Carolina,Raleigh,601,248,Northeast
+North Dakota,Bismarck,315,68,Northeast
+Ohio,Columbus,520,175,Northeast
+Oklahoma,Oklahoma City,356,274,Northeast
+Oregon,Salem,67,93,Northwest
+Pennsylvania,Harrisburg,580,153,Northeast
+Rhode Island,Providence,685,109,Northeast
+South Carolina,Columbia,578,282,Northeast
+South Dakota,Pierre,318,118,Northeast
+Tennessee,Nashville,491,255,Northeast
+Texas,Austin,305,336,Northeast
+Utah,Salt Lake City,162,190,Northwest
+Vermont,Montpelier,598,27,Northeast
+Virginia,Richmond,595,213,Northeast
+Washington,Olympia,86,30,Northwest
+West Virginia,Charleston,548,200,Northeast
+Wisconsin,Madison,433,120,Northeast
+Wyoming,Cheyenne,226,134,Northwest
