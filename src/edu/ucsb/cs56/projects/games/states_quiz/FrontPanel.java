@@ -135,10 +135,6 @@ public class FrontPanel extends JPanel {
 		add(capitalButton);
 		add(stateThenCapitalButton);
 
-		add(easyDescription);
-                add(normalDescription);
-                add(hardDescription);
-
 		add(diffHeader);
 		add(easyButton);
 		add(normalButton);

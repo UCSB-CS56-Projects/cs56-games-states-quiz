@@ -248,7 +248,7 @@ public class QuestionManager {
                 }
             if (this.getDifficulty().equals("Hard"))
                 {
-                    if (!randStateIndexes.isEmpty()) {
+                    if (getRandStateIndex() > 0) {
                         randIndex = (int) (Math.random() * (randStateIndexes.size() - 1));
                         currentQuestion = randStateIndexes.get(randIndex);
                     }
