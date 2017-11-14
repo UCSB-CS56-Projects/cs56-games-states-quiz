@@ -40,17 +40,17 @@ public class QuestionManager {
     protected ArrayList<State> correctStates;
     protected ArrayList<JButton> hiddenButtons;
 
-	private Runnable reloadFrame;
+    private Runnable reloadFrame;
 
-	/**
-	 * Constructor QuestionManager creates a new array of the fifty state names
-	 */
-	public QuestionManager(GamePanel parent, Runnable reloadFrame) {
-		this.reloadFrame = reloadFrame;
-		states = new ArrayList<State>();
-		correctStates = new ArrayList<State>();
-		randStateIndexes = new ArrayList<Integer>();
-		hiddenButtons = new ArrayList<JButton>();
+    /**
+     * Constructor QuestionManager creates a new array of the fifty state names
+     */
+    public QuestionManager(GamePanel parent, Runnable reloadFrame) {
+	this.reloadFrame = reloadFrame;
+	states = new ArrayList<State>();
+	correctStates = new ArrayList<State>();
+	randStateIndexes = new ArrayList<Integer>();
+	hiddenButtons = new ArrayList<JButton>();
 
         gamePanel = parent;
         mapPanel = gamePanel.getMapPanel();
@@ -260,24 +260,26 @@ public class QuestionManager {
 
             gamePanel.setHintButtonVisible(false);
 
-	    if (guesses == 0)
-				currentScore++;
-	    else
-				this.guesses = 0;
-			gamePanel.appendQuestionTextArea("Your current score is: " + currentScore + "\n");
-		      
-			this.askNextQuestion();
-			return true;
-		} else {
-			gamePanel.getStopWatch().addPenalty();
-			if (this.getDifficulty().equals("Hard")) {
-				answerButton.setVisible(false);
-				this.hiddenButtons.add(answerButton);
-			}
-			guesses++;
-			if (guesses == 3)
-				gamePanel.setHintButtonVisible(true);
-			
+	    
+	    currentScore+=10;
+	    currentScore-=(guesses*2);
+	    this.guesses = 0;
+	    
+		
+	    gamePanel.appendQuestionTextArea("Your current score is: " + currentScore + "\n");
+	    this.askNextQuestion();
+	    return true;
+	} else {
+	    gamePanel.getStopWatch().addPenalty();
+	    if (this.getDifficulty().equals("Hard")) {
+		answerButton.setVisible(false);
+		this.hiddenButtons.add(answerButton);
+	    }
+	    
+	    guesses++;
+	    if (guesses == 3)
+		gamePanel.setHintButtonVisible(true);
+
             String stateChosen = "";
             String capitalChosen = "";
 
@@ -292,35 +294,40 @@ public class QuestionManager {
 	    
 		
             if (getGameMode().equals("States") || getGameMode().equals("States then Capitals")) {
-                gamePanel.getQuestionTextArea().setText("Nope! That was " + stateChosen + "! Total guesses: " + this.guesses + "\n");
+                gamePanel.getQuestionTextArea().setText("Nope! That was " + stateChosen + "! ");
             }
             else if (getGameMode().equals("Capitals")) {
-                gamePanel.getQuestionTextArea().setText("Nope! That was " + capitalChosen + "! Total guesses: " + this.guesses + "\n");
+                gamePanel.getQuestionTextArea().setText("Nope! That was " + capitalChosen + "! ");
             }
             this.askNextQuestion();
             return false;
         }
     }
-	
-	/**
-	 * Called when in StateThenCapitals mode
-	 * Continuously loops until the capital is entered correctly
-	 */
 
-	private AnswerOption checkCapital() {
-		AnswerOption answer = askCapital();
-		while (answer == AnswerOption.INCORRECT) {
-			gamePanel.appendQuestionTextArea("Capital is Incorrect! ");
-			answer = askCapital();
-			this.guesses++;
-			
-			gamePanel.getStopWatch().addPenalty();
-		}
-		if (answer == AnswerOption.NO_ANSWER) {
-			guesses++;
-		}
-		return answer;
+    /**
+     * Called when in StateThenCapitals mode
+     * Continuously loops until the capital is entered correctly
+     */
+
+    private AnswerOption checkCapital() {
+	AnswerOption answer = askCapital();
+	while (answer == AnswerOption.INCORRECT) {
+	    gamePanel.appendQuestionTextArea("Capital is Incorrect! ");
+	    answer = askCapital();
+	    this.guesses++;
+	    gamePanel.getStopWatch().addPenalty();
 	}
+	if (answer == AnswerOption.NO_ANSWER) {
+	    guesses++;
+	}
+	return answer;
+    }
+
+    public void isHintButtonClicked(boolean hintButtonClicked) {
+	if (hintButtonClicked){
+	    this.currentScore-=2;
+	}
+    }
 
     /**
      * Called by checkCapital during StateThenCapitals mode
@@ -329,19 +336,19 @@ public class QuestionManager {
      * @return boolean representing if capital input is correct or not
      */
 
-	private AnswerOption askCapital() {
-	    String s = JOptionPane.showInputDialog(
-				gamePanel.getParent(),
-				"Enter the capital of " + states.get(currentQuestion).getName() + ":",
-				"Capital Input",
-				JOptionPane.PLAIN_MESSAGE);
-		if (s == null) {
-			return AnswerOption.NO_ANSWER;
-		} else if (s.equals(states.get(currentQuestion).getCapital())) {
-			return AnswerOption.CORRECT;
-		}
-		return AnswerOption.INCORRECT;
+    private AnswerOption askCapital() {
+	String s = JOptionPane.showInputDialog(
+					       gamePanel.getParent(),
+					       "Enter the capital of " + states.get(currentQuestion).getName() + ":",
+					       "Capital Input",
+					       JOptionPane.PLAIN_MESSAGE);
+	if (s == null) {
+	    return AnswerOption.NO_ANSWER;
+	} else if (s.equals(states.get(currentQuestion).getCapital())) {
+	    return AnswerOption.CORRECT;
 	}
+	return AnswerOption.INCORRECT;
+    }
 
 
 }

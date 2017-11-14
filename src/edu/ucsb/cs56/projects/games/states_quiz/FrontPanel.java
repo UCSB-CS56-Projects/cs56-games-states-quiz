@@ -148,76 +148,76 @@ public class FrontPanel extends JPanel {
 		repaint();
 	}
 
-	private JLabel createHighScoreLabel() {
-		File file = new File("high_score.txt");
-		JLabel label = new JLabel("High Score: 0");
-		try {
-			Scanner scanner = new Scanner(file);
-			int highScore = scanner.nextInt();
-			label.setText("High Score: " + Integer.toString(highScore));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		return label;
+    private JLabel createHighScoreLabel() {
+	File file = new File("high_score.txt");
+	JLabel label = new JLabel("High Score: 0");
+	try {
+	    Scanner scanner = new Scanner(file);
+	    int highScore = scanner.nextInt();
+	    label.setText("High Score: " + Integer.toString(highScore));
+	} catch (FileNotFoundException e) {
+	    e.printStackTrace();
 	}
+	return label;
+    }
 
-	public void paintComponent(Graphics g) {
-		g.drawImage(map, 0, 0, 980, 680, this);
-	}
+    public void paintComponent(Graphics g) {
+	g.drawImage(map, 0, 0, 980, 680, this);
+    }
 
-	/**
-	 * @return state game mode button
-	 */
+    /**
+     * @return state game mode button
+     */
 
-	public JButton getStateButton() {
-		return this.stateButton;
-	}
+    public JButton getStateButton() {
+	return this.stateButton;
+    }
 
-	/**
-	 * @return capital game mode button
-	 */
+    /**
+     * @return capital game mode button
+     */
 
-	public JButton getCapitalButton() {
-		return this.capitalButton;
-	}
+    public JButton getCapitalButton() {
+	return this.capitalButton;
+    }
 
-	/**
-	 * @return stateThenCapital game mode button
-	 */
+    /**
+     * @return stateThenCapital game mode button
+     */
 
-	public JButton getStateThenCapitalButton() {
-		return this.stateThenCapitalButton;
-	}
+    public JButton getStateThenCapitalButton() {
+	return this.stateThenCapitalButton;
+    }
 
-	/**
-	 * @return JRadioButton representing easy difficulty
-	 */
+    /**
+     * @return JRadioButton representing easy difficulty
+     */
 
-	public JRadioButton getEasyButton() {
-		return this.easyButton;
-	}
+    public JRadioButton getEasyButton() {
+	return this.easyButton;
+    }
 
-	/**
-	 * @return JRadioButton representing normal difficulty
-	 */
+    /**
+     * @return JRadioButton representing normal difficulty
+     */
 
-	public JRadioButton getNormalButton() {
-		return this.normalButton;
-	}
+    public JRadioButton getNormalButton() {
+	return this.normalButton;
+    }
 
-	/**
-	 * @return JRadioButton representing hard difficulty
-	 */
+    /**
+     * @return JRadioButton representing hard difficulty
+     */
 
-	public JRadioButton getHardButton() {
-		return this.hardButton;
-	}
+    public JRadioButton getHardButton() {
+	return this.hardButton;
+    }
 
-	/**
-	 * @return the buttongroup representing the difficulties
-	 */
+    /**
+     * @return the buttongroup representing the difficulties
+     */
 
-	public ButtonGroup getDifficultiesGroup() {
-		return this.difficulties;
-	}
+    public ButtonGroup getDifficultiesGroup() {
+	return this.difficulties;
+    }
 }
