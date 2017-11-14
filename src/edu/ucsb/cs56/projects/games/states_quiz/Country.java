@@ -80,6 +80,7 @@ public class Country {
 	String line;
 	int x;
 	int y;
+	String quadrant;
 
 	for (int i = 0; i < numberOfStates; i++) {
 	    line = scanner.nextLine();
@@ -87,7 +88,9 @@ public class Country {
 
 	    x = Integer.parseInt(splitted[2]);
 	    y = Integer.parseInt(splitted[3]);
-	    states.add(new State(splitted[0], splitted[1], x, y));
+	    quadrant = splitted[4];
+	    
+	    states.add(new State(splitted[0], splitted[1], x, y, quadrant));
 	}
     }
 

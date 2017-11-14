@@ -10,7 +10,7 @@ package edu.ucsb.cs56.projects.games.states_quiz;
 
 public class State {
 
-    private String name, capital;
+    private String name, capital, quadrant;
     private int xCoord, yCoord;
 
     /**
@@ -21,6 +21,7 @@ public class State {
 	capital = null;
 	xCoord = 0;
 	yCoord = 0;
+	quadrant = null;
     }
 
     /**
@@ -29,11 +30,20 @@ public class State {
      * @param x       x coordinate of the state
      * @param y       y coordinate of the state
      */
-    public State(String name, String capital, int x, int y) {
+    public State(String name, String capital, int x, int y, String quadrant) {
 	this.name = name;
 	this.capital = capital;
 	this.xCoord = x;
 	this.yCoord = y;
+	this.quadrant = quadrant;
+    }
+
+    public String getQuadrant() {
+	return this.quadrant;
+    }
+
+    public void setQuadrant(String quadrant) {
+	this.quadrant = quadrant;
     }
 
     /**

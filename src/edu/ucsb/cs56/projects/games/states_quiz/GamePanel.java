@@ -113,7 +113,7 @@ public class GamePanel extends JPanel {
         hintButton.addActionListener(e -> {
 		State state = mapPanel.getQuestionManager().getCorrectState();
 		//hintButton.setText(this.getStateQuadrant(state.getXCoord(), state.getYCoord())+"\nThe first letter of the capital is "+ getFirstLetterOfCapital(state.getCapital()));
-		String stateHint;
+		/*String stateHint;
 		if (state.getName().equals("Alaska")) {
 		    stateHint = "Northwest";
 		    System.out.println("Alaska");
@@ -121,7 +121,9 @@ public class GamePanel extends JPanel {
 		else {
 		    stateHint = GamePanel.this.getStateQuadrant(state.getXCoord(), state.getYCoord());
 		}
-		
+		*/
+
+		String stateHint = state.getQuadrant();
 		String capitalHint = "Capital's first letter: " + getFirstLetterOfCapital(state.getCapital());
 		hintButton.setText("<html>State is " + stateHint + " " + capitalHint + "</html>");
 		questionManager.isHintButtonClicked(true);
@@ -239,12 +241,13 @@ public class GamePanel extends JPanel {
         return this.mapPanel;
     }
 
+    
     /**
      * @param x x value of state
      * @param y y value of state
      * @return String with quadrant (north-south/east-west) of state
      */
-    public String getStateQuadrant(int x, int y) {
+    /*public String getStateQuadrant(int x, int y) {
         String quadrant = "";
         //Decide north or south
         if (y <= MAP_Y_BOUND / 2) {
@@ -260,6 +263,7 @@ public class GamePanel extends JPanel {
         }
         return quadrant;
     }
+    */
 
     public String getFirstLetterOfCapital(String capital) {
         return capital.substring(0, 1);
