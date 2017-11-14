@@ -97,13 +97,6 @@ public class FrontPanel extends JPanel {
 		difficulties.add(normalButton);
 		difficulties.add(hardButton);
 
-	        easyDescription.setLocation(700, 320);
-		easyDescription.setSize(80, 80);
-		normalDescription.setLocation(700, 370);
-		normalDescription.setSize(80, 80);
-		hardDescription.setLocation(700, 420);
-		hardDescription.setSize(80, 80);
-
 		title.setBounds(100, 80, 800, 200);
 		stateButton.setBounds(340, 280, 300, 100);
 		capitalButton.setBounds(340, 400, 300, 100);
