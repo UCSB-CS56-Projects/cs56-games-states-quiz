@@ -99,11 +99,7 @@ public class QuestionManager {
         return this.difficulty;
     }
 
-    public int getRandStateIndex(){
-        return this.randStateIndexes.size();
-    }
-
-
+ 
     /**
      * Called by the GameFrame when the game starts
      *
@@ -156,27 +152,6 @@ public class QuestionManager {
 	     
 		
 	}
-
- 
-    /**
-     *Ends the game round. Gives the option to play again.
-     */
-    public void endRound(){
-	mapPanel.getSoundManager().playCompletedSound();
-	gamePanel.appendQuestionTextArea("Round has ended!");
-	recordHighScore();
-	int n = JOptionPane.showConfirmDialog(
-					      gamePanel.getParent(),
-					      "Would you like to play again?",
-					      "Congratulations!",
-					      JOptionPane.YES_NO_OPTION);
-	if (n == JOptionPane.NO_OPTION){
-	    System.exit(0);
-	}
-	else {
-	    reloadFrame.run();
-	}
-    }
 
     /**                                                                                                
      *Ends the game round. Gives the option to play again.                                             
