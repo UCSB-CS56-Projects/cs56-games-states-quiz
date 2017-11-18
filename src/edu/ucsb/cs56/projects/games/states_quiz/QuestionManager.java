@@ -33,6 +33,9 @@ public class QuestionManager {
     protected int randIndex;
     protected int currentScore;
     protected int guesses = 0;
+    protected int easyLength = 40;
+    protected int normalLength = 25;
+    protected int hardLength = 0;
 
 
     protected ArrayList<State> states;
@@ -139,19 +142,18 @@ public class QuestionManager {
 	  	    
 	     
 	   if (!randStateIndexes.isEmpty()) {
-			if (Objects.equals(getGameMode(), "Capitals")) {
-				gamePanel.appendQuestionTextArea("Click on: " + states.get(currentQuestion).getCapital() + "\n");
-			} else {
-				gamePanel.appendQuestionTextArea("Click on: " + states.get(currentQuestion).getName() + "\n");
-							}
-			mapPanel.setAnswer(mapPanel.stateButtons[currentQuestion]);
-		}
-	   else{
-	       endRound();
+	       if (Objects.equals(getGameMode(), "Capitals")) {
+		   gamePanel.appendQuestionTextArea("Click on: " + states.get(currentQuestion).getCapital() + "\n");
+	       } else {
+		   gamePanel.appendQuestionTextArea("Click on: " + states.get(currentQuestion).getName() + "\n");
+	       }
+		   mapPanel.setAnswer(mapPanel.stateButtons[currentQuestion]);
+	       }
+	       else{
+		   endRound();
+	       }
 	   }
-	     
-		
-	}
+	   
 
     /**                                                                                                
      *Ends the game round. Gives the option to play again.                                             
@@ -228,36 +230,16 @@ public class QuestionManager {
 
 		 if (this.getDifficulty().equals("Easy"))
                 {
-                    if (getRandStateIndex() > 40) {
-			randIndex = (int) (Math.random() * (randStateIndexes.size() - 1));
-			currentQuestion = randStateIndexes.get(randIndex);
-		    }
-		    else{
-			endRound();
-		    }
+                    checkEndRound(easyLength);
 		}
 		 if (this.getDifficulty().equals("Normal"))
                 {
-                    if (getRandStateIndex() > 25) {
-                        randIndex = (int) (Math.random() * (randStateIndexes.size() - 1));
-                        currentQuestion = randStateIndexes.get(randIndex);
-                    }
-                    else {
-                        endRound();
-                    }
+                    checkEndRound(normalLength);
                 }
-            if (this.getDifficulty().equals("Hard"))
-                {
-                    if (getRandStateIndex() > 0) {
-                        randIndex = (int) (Math.random() * (randStateIndexes.size() - 1));
-                        currentQuestion = randStateIndexes.get(randIndex);
-                    }
-                    else {
-                        endRound();
-                    }
-		}
+		 if (this.getDifficulty().equals("Hard")){
+		     checkEndRound(hardLength);
+		 }
 	    }
-
             gamePanel.setHintButtonVisible(false);
 
 	    
@@ -301,9 +283,18 @@ public class QuestionManager {
             }
             this.askNextQuestion();
             return false;
-        }
+	    }
+	}
+    public void checkEndRound(int gameLength){
+	if (getRandStateIndex() > gameLength) {
+	    randIndex = (int) (Math.random() * (randStateIndexes.size() - 1));
+	    currentQuestion = randStateIndexes.get(randIndex);
+	}
+	else{
+	    endRound();
+	}
     }
-
+    
     /**
      * Called when in StateThenCapitals mode
      * Continuously loops until the capital is entered correctly

@@ -33,20 +33,11 @@ public class StopWatch extends JLabel {
 
             time = time + 1;
 
+	    String text = String.format("%02d:%02d", minutes, seconds);
 
-
-            if (seconds <= 9){
-
-            setText("Time Elapsed: "+ minutes + ":0" + seconds);
-            }
-            else{
-                setText("Time Elapsed: "+ minutes + ":" + seconds);
-            }
-
-
-
+	    setText("Time Elapsed: "+ text);
         };
-        Timer timer = new Timer(1000, task); // Execute task each 1000 milliseconds                    
+        Timer timer = new Timer(1000, task); // Execute task each 1000 milliseconds           
         setOpaque(true);
         timer.start();
 
