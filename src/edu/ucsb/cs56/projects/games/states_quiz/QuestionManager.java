@@ -286,7 +286,7 @@ public class QuestionManager {
 	    }
 	}
     public void checkEndRound(int gameLength){
-	if (getRandStateIndex() > gameLength) {
+	if (getRandStateIndex() >= gameLength) {
 	    randIndex = (int) (Math.random() * (randStateIndexes.size() - 1));
 	    currentQuestion = randStateIndexes.get(randIndex);
 	}
