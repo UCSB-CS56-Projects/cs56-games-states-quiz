@@ -19,6 +19,7 @@ import javax.swing.ScrollPaneConstants;
  * @author Zhansaya Abdikarimova
  * @author Ryan Kemper
  * @author Ryan Allen
+ * @author Diana Reyes
  */
 
 
@@ -31,34 +32,33 @@ public class GamePanel extends JPanel {
     private MapPanel mapPanel;
     private JPanel panel;
     private JTextArea questionTextArea; // text area on bottom where question displays
-    private JTextArea answerTextArea; // text area on right for correct answers
+
     private JScrollPane questionScrollPane;
-    private JScrollPane answerScrollPane;
     private JButton hintButton;
     private Runnable reloadFrame;
     private QuestionManager questionManager;
     private StopWatch stopWatch;
+    private ReadyGo readyGo;
 
     public GamePanel(Runnable reloadFrame) {
         this.reloadFrame = reloadFrame;
-        Font ourFont = new Font("Arial", Font.PLAIN, 24);
+        Font ourFont = new Font("Verdana", Font.BOLD, 24);
         mapPanel = new MapPanel();
 
         String questionText = "Welcome to the USA map quiz!\n";
-        String answerText = "Correct Answers:\n";
-
+       
         questionTextArea = generateQuestionTextArea(4, 20, ourFont, questionText);
-        answerTextArea = generateAnswerTextArea(20, 10, ourFont, answerText);
+       
 
-        int hintX = (int) (.55 * SCREEN_WIDTH);
-        int hintY = (int) (.68 * SCREEN_HEIGHT); //was .7
+        int hintX = (int) (.77 * SCREEN_WIDTH);
+        int hintY = (int) (.7 * SCREEN_HEIGHT); 
         hintButton = this.generateHintButton(hintX, hintY, 180, 60, "Click For Hint");
-        mapPanel.add(hintButton);
-
-        int homeX = (int) (.01 * SCREEN_WIDTH);
+	mapPanel.add(hintButton);
+        int homeX = (int) (.77 * SCREEN_WIDTH);
         int homeY = (int) (.55 * SCREEN_HEIGHT);
-        JButton homeButton = this.generateHomeButton(homeX, homeY, 120, 60, "Main Menu");
+        JButton homeButton = this.generateHomeButton(homeX, homeY, 180, 60, "Main Menu");
         mapPanel.add(homeButton);
+	
 
         this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -68,11 +68,14 @@ public class GamePanel extends JPanel {
         this.add(mapPanel, BorderLayout.CENTER);
 
         this.add(questionScrollPane, BorderLayout.SOUTH);
-        this.add(answerScrollPane, BorderLayout.EAST);
 
-        stopWatch = new StopWatch((int) (.57 * SCREEN_WIDTH), (int) (.6 * SCREEN_HEIGHT), 160, 80);
+        stopWatch = new StopWatch((int) (.8 * SCREEN_WIDTH), (int) (.4 * SCREEN_HEIGHT), 180, 80);
         mapPanel.add(stopWatch);
         stopWatch.start();
+
+	readyGo = new ReadyGo((int) (.85 * SCREEN_WIDTH), (int) (.3 * SCREEN_HEIGHT), 180, 80);
+        mapPanel.add(readyGo);
+        readyGo.readyGoStart();
 
         this.setVisible(false);
         this.repaint();
@@ -94,7 +97,7 @@ public class GamePanel extends JPanel {
 	    });
         return homeButton;
     }
-
+    
     /**
      * @param x    x coord of hintButton
      * @param y    y coord of hintButton
@@ -111,13 +114,13 @@ public class GamePanel extends JPanel {
         hintButton.setVisible(false);
         hintButton.setBounds(x, y, w, h);
         hintButton.addActionListener(e -> {
+
 		State state = mapPanel.getQuestionManager().getCorrectState();
 		String stateHint = state.getQuadrant();
 		String capitalHint = "Capital's first letter: " + getFirstLetterOfCapital(state.getCapital());
 		hintButton.setText("<html>State is " + stateHint + " " + capitalHint + "</html>");
 		questionManager.isHintButtonClicked(true);
 	    });
-	
         return hintButton;
     }
 
@@ -145,29 +148,6 @@ public class GamePanel extends JPanel {
         textArea.setEditable(false);
         textArea.append(text);
 
-
-        return textArea;
-    }
-
-    /**
-     * @param rows rows of the answer text area
-     * @param cols cols of the answer text area
-     * @param font font of the answer text area
-     * @param text text of the answer text area
-     * @return textArea the new answer text area, answerScrollPane is also initialized
-     */
-
-    private JTextArea generateAnswerTextArea(int rows, int cols, Font font, String text) {
-
-        JTextArea textArea = new JTextArea(rows, cols);
-        textArea.setLineWrap(true);
-        answerScrollPane = new JScrollPane(textArea);
-        answerScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        answerScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
-        textArea.setFont(font);
-        textArea.setEditable(false);
-        textArea.append(text);
 
         return textArea;
     }
@@ -207,20 +187,6 @@ public class GamePanel extends JPanel {
      */
     public void setQuestionTextArea(String text) {
         questionTextArea.setText(text);
-    }
-
-    /**
-     * @return answerTextArea the Text Area with correct answers
-     */
-    public JTextArea getAnswerTextArea() {
-        return this.answerTextArea;
-    }
-
-    /**
-     * @param text answer that goes into answerTextAres
-     */
-    public void setAnswerTextArea(String text) {
-        this.answerTextArea.append(text + "\n");
     }
 
     /**

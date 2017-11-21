@@ -19,8 +19,9 @@ import javax.swing.JOptionPane;
  * @author Nick Eidler
  * @author Ryan Allen
  * @author Ryan Kemper
- */
-
+ * @author Diana Reyes
+ * @author Lindsey Nguyen
+ **/
 public class QuestionManager {
     protected GamePanel gamePanel;
     protected MapPanel mapPanel;
@@ -32,6 +33,10 @@ public class QuestionManager {
     protected int randIndex;
     protected int currentScore;
     protected int guesses = 0;
+    protected int easyLength = 40;
+    protected int normalLength = 25;
+    protected int hardLength = 0;
+
 
     protected ArrayList<State> states;
     protected ArrayList<Integer> randStateIndexes;
@@ -97,6 +102,7 @@ public class QuestionManager {
         return this.difficulty;
     }
 
+ 
     /**
      * Called by the GameFrame when the game starts
      *
@@ -125,74 +131,87 @@ public class QuestionManager {
         this.gameMode = mode;
     }
 
-    /**
-     * Asks the next question if the question counter is less than 50. Prints
-     * out the current state.
-     */
+	/**
+	 * Asks the next question if the question counter is less than 50. Prints
+	 * out the current state.
+	 */
+    public int getRandStateIndex(){
+	return this.randStateIndexes.size();
+    }
     public void askNextQuestion() {
-	if (!randStateIndexes.isEmpty()) {
-	    if (Objects.equals(getGameMode(), "Capitals")) {
-		gamePanel.appendQuestionTextArea("Click on: " + states.get(currentQuestion).getCapital() + "\n");
-	    } else {
-		gamePanel.appendQuestionTextArea("Click on: " + states.get(currentQuestion).getName() + "\n");
-	    }
-	    mapPanel.setAnswer(mapPanel.stateButtons[currentQuestion]);
-	} else {
-	    mapPanel.getSoundManager().playCompletedSound();
-	    gamePanel.appendQuestionTextArea("You're finished! Yay!");
-	    recordHighScore();
-	    int n = JOptionPane.showConfirmDialog(
-						  gamePanel.getParent(),
-						  "Would you like to play again?",
-						  "Congratulations!",
-						  JOptionPane.YES_NO_OPTION);
-	    if (n == JOptionPane.NO_OPTION) {
-		System.exit(0);
-	    } else {
-		reloadFrame.run();
-	    }
-	}
-    }
-    
-    public void recordHighScore() {
-	File file = new File("high_score.txt");
-	try {
-	    // Get current high score
-	    Scanner scanner = new Scanner(file);
-	    int highScore = scanner.nextInt();
+	  	    
+	     
+	   if (!randStateIndexes.isEmpty()) {
+	       if (Objects.equals(getGameMode(), "Capitals")) {
+		   gamePanel.appendQuestionTextArea("Click on: " + states.get(currentQuestion).getCapital() + "\n");
+	       } else {
+		   gamePanel.appendQuestionTextArea("Click on: " + states.get(currentQuestion).getName() + "\n");
+	       }
+		   mapPanel.setAnswer(mapPanel.stateButtons[currentQuestion]);
+	       }
+	       else{
+		   endRound();
+	       }
+	   }
+	   
 
-	    FileWriter writer = new FileWriter("high_score.txt");
-	    writer.write(Integer.toString(Math.max(highScore, currentScore)));
-	    writer.close();
-	} catch (IOException e) {
-	    e.printStackTrace();
-	}
-    }
-    
-    
-    /**
-     * Receives the answer from MapPanel and checks to see if the answer is
-     * equivalent to the current state. Prints out the current score and
-     * increments the counters.
-     *
-     * @param answerButton JButton that represents answer input
+    /**                                                                                                
+     *Ends the game round. Gives the option to play again.                                             
      */
-    public boolean receiveAnswer(JButton answerButton) {
-	if (answerButton == mapPanel.stateButtons[currentQuestion]) {
-	    AnswerOption answer = null;
-	    if (getGameMode().equals("States then Capitals")) {
-		answer = checkCapital();
-	    }
-	    gamePanel.setAnswerTextArea(states.get(currentQuestion).getName());
+    public void endRound(){
+        mapPanel.getSoundManager().playCompletedSound();
+        gamePanel.appendQuestionTextArea("Round has ended!");
+        recordHighScore();
+        int n = JOptionPane.showConfirmDialog(
+                                              gamePanel.getParent(),
+                                              "Would you like to play again?",
+                                              "Congratulations!",
+                                              JOptionPane.YES_NO_OPTION);
+        if (n == JOptionPane.NO_OPTION){
+            System.exit(0);
+        }
+        else {
+            reloadFrame.run();
+        }
+    }
 
-	    String message;
-	    if (answer == null) {
-		message = AnswerOption.CORRECT.getMessage();
-	    }
-	    else {
-		message = answer.getMessage();
-	    }
-	    gamePanel.setQuestionTextArea(message);
+    public void recordHighScore() {
+		File file = new File("high_score.txt");
+		try {
+			// Get current high score
+			Scanner scanner = new Scanner(file);
+			int highScore = scanner.nextInt();
+
+			FileWriter writer = new FileWriter("high_score.txt");
+			writer.write(Integer.toString(Math.max(highScore, currentScore)));
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Receives the answer from MapPanel and checks to see if the answer is
+	 * equivalent to the current state. Prints out the current score and
+	 * increments the counters.
+	 *
+	 * @param answerButton JButton that represents answer input
+	 */
+	public boolean receiveAnswer(JButton answerButton) {
+		if (answerButton == mapPanel.stateButtons[currentQuestion]) {
+			AnswerOption answer = null;
+			if (getGameMode().equals("States then Capitals")) {
+				answer = checkCapital();
+			}
+
+			String message;
+			if (answer == null) {
+				message = AnswerOption.CORRECT.getMessage();
+			}
+			else {
+				message = answer.getMessage();
+			}
+			gamePanel.setQuestionTextArea(message);
 
             correctStates.add(states.get(currentQuestion));
 
@@ -205,11 +224,22 @@ public class QuestionManager {
             }
 
             randStateIndexes.remove(randIndex);
-            if (!randStateIndexes.isEmpty()) {
-                randIndex = (int) (Math.random() * (randStateIndexes.size() - 1));
-                currentQuestion = randStateIndexes.get(randIndex);
-            }
 
+	    
+            if (!randStateIndexes.isEmpty()) {
+
+		 if (this.getDifficulty().equals("Easy"))
+                {
+                    checkEndRound(easyLength);
+		}
+		 if (this.getDifficulty().equals("Normal"))
+                {
+                    checkEndRound(normalLength);
+                }
+		 if (this.getDifficulty().equals("Hard")){
+		     checkEndRound(hardLength);
+		 }
+	    }
             gamePanel.setHintButtonVisible(false);
 
 	    
@@ -234,6 +264,8 @@ public class QuestionManager {
 
             String stateChosen = "";
             String capitalChosen = "";
+
+	
             for (int i = 0; i < 50; i++) {
                 if (answerButton == mapPanel.stateButtons[i]) {
                     stateChosen = states.get(i).getName();
@@ -241,6 +273,8 @@ public class QuestionManager {
                     break;
                 }
             }
+	    
+		
             if (getGameMode().equals("States") || getGameMode().equals("States then Capitals")) {
                 gamePanel.getQuestionTextArea().setText("Nope! That was " + stateChosen + "! ");
             }
@@ -249,9 +283,18 @@ public class QuestionManager {
             }
             this.askNextQuestion();
             return false;
-        }
+	    }
+	}
+    public void checkEndRound(int gameLength){
+	if (getRandStateIndex() >= gameLength) {
+	    randIndex = (int) (Math.random() * (randStateIndexes.size() - 1));
+	    currentQuestion = randStateIndexes.get(randIndex);
+	}
+	else{
+	    endRound();
+	}
     }
-
+    
     /**
      * Called when in StateThenCapitals mode
      * Continuously loops until the capital is entered correctly
