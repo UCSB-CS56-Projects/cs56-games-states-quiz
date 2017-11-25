@@ -3,6 +3,8 @@ package edu.ucsb.cs56.projects.games.states_quiz;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.io.BufferedWriter;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
@@ -22,6 +24,7 @@ import javax.swing.JOptionPane;
  * @author Diana Reyes
  * @author Lindsey Nguyen
  **/
+
 public class QuestionManager {
     protected GamePanel gamePanel;
     protected MapPanel mapPanel;
@@ -36,7 +39,6 @@ public class QuestionManager {
     protected int easyLength = 40;
     protected int normalLength = 25;
     protected int hardLength = 0;
-
 
     protected ArrayList<State> states;
     protected ArrayList<Integer> randStateIndexes;
@@ -131,38 +133,42 @@ public class QuestionManager {
         this.gameMode = mode;
     }
 
-	/**
-	 * Asks the next question if the question counter is less than 50. Prints
-	 * out the current state.
-	 */
+    /**
+     * Asks the next question if the question counter is less than 50. Prints
+     * out the current state.
+     */
     public int getRandStateIndex(){
 	return this.randStateIndexes.size();
     }
-    public void askNextQuestion() {
-	  	    
-	     
-	   if (!randStateIndexes.isEmpty()) {
-	       if (Objects.equals(getGameMode(), "Capitals")) {
-		   gamePanel.appendQuestionTextArea("Click on: " + states.get(currentQuestion).getCapital() + "\n");
-	       } else {
-		   gamePanel.appendQuestionTextArea("Click on: " + states.get(currentQuestion).getName() + "\n");
-	       }
-		   mapPanel.setAnswer(mapPanel.stateButtons[currentQuestion]);
-	       }
-	       else{
-		   endRound();
-	       }
-	   }
+    
+    public void askNextQuestion() {     
+	if (!randStateIndexes.isEmpty()) {
+	    if (Objects.equals(getGameMode(), "Capitals")) {
+		gamePanel.appendQuestionTextArea("Click on: " + states.get(currentQuestion).getCapital() + "\n");
+	    } else {
+		gamePanel.appendQuestionTextArea("Click on: " + states.get(currentQuestion).getName() + "\n");
+	    }
+	    mapPanel.setAnswer(mapPanel.stateButtons[currentQuestion]);
+	}
+	else{
+	    endRound();
+	}
+    }
 	   
 
-    /**                                                                                                
-     *Ends the game round. Gives the option to play again.                                             
+    /**                                                                                       
+     *Ends the game round. Gives the option to play again.
      */
     public void endRound(){
         mapPanel.getSoundManager().playCompletedSound();
         gamePanel.appendQuestionTextArea("Round has ended!");
-        recordHighScore();
-        int n = JOptionPane.showConfirmDialog(
+	String username = JOptionPane.showInputDialog(
+					        gamePanel.getParent(),
+						"Game over. Your score: " + currentScore,
+						"Enter a username");
+	recordHighScore(username);
+	showHighScores();
+	int n = JOptionPane.showConfirmDialog(
                                               gamePanel.getParent(),
                                               "Would you like to play again?",
                                               "Congratulations!",
@@ -173,74 +179,80 @@ public class QuestionManager {
         else {
             reloadFrame.run();
         }
+
     }
 
-    public void recordHighScore() {
-		File file = new File("high_score.txt");
-		try {
-			// Get current high score
-			Scanner scanner = new Scanner(file);
-			int highScore = scanner.nextInt();
+    public void showHighScores() {
+	HighscoreFrame hsf = new HighscoreFrame();
+	File file = new File("high_scores/" + gameMode + "/"  + difficulty  + ".txt");
+	hsf.writeHighScores(file);
+    }
 
-			FileWriter writer = new FileWriter("high_score.txt");
-			writer.write(Integer.toString(Math.max(highScore, currentScore)));
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+    public void recordHighScore(String username) {
+	String file = "high_scores" + "/" +  gameMode + "/" + difficulty + ".txt";
+	int time = gamePanel.getStopWatch().getTime();
+	try {
+	    FileWriter fw = new FileWriter(file, true);
+	    BufferedWriter writer = new BufferedWriter(fw);
+	    writer.append(username + "\t" + currentScore + "\t" + time + "\n");
+	    writer.close();
+	} catch(IOException e){
+	    e.printStackTrace();
 	}
+    }
+    
 
-	/**
-	 * Receives the answer from MapPanel and checks to see if the answer is
-	 * equivalent to the current state. Prints out the current score and
-	 * increments the counters.
-	 *
-	 * @param answerButton JButton that represents answer input
-	 */
-	public boolean receiveAnswer(JButton answerButton) {
-		if (answerButton == mapPanel.stateButtons[currentQuestion]) {
-			AnswerOption answer = null;
-			if (getGameMode().equals("States then Capitals")) {
-				answer = checkCapital();
-			}
+    /**
+     * Receives the answer from MapPanel and checks to see if the answer is
+     * equivalent to the current state. Prints out the current score and
+     * increments the counters.
+     *
+     * @param answerButton JButton that represents answer input
+     */
+    public boolean receiveAnswer(JButton answerButton) {
+	if (answerButton == mapPanel.stateButtons[currentQuestion]) {
+	    AnswerOption answer = null;
+	    if (getGameMode().equals("States then Capitals")) {
+		answer = checkCapital();
+	    }
 
-			String message;
-			if (answer == null) {
-				message = AnswerOption.CORRECT.getMessage();
-			}
-			else {
-				message = answer.getMessage();
-			}
-			gamePanel.setQuestionTextArea(message);
+	    String message;
+	    if (answer == null) {
+		message = AnswerOption.CORRECT.getMessage();
+	    }
+	    else {
+		message = answer.getMessage();
+	    }
+	    gamePanel.setQuestionTextArea(message);
 
-            correctStates.add(states.get(currentQuestion));
+	    correctStates.add(states.get(currentQuestion));
 
-            for (JButton button : this.hiddenButtons) {
-                button.setVisible(true);
-            }
+	    for (JButton button : this.hiddenButtons) {
+		button.setVisible(true);
+	    }
 
-            if (this.getDifficulty().equals("Easy")) {
-                answerButton.setVisible(false);
-            }
+	    if (this.getDifficulty().equals("Easy")) {
+		answerButton.setVisible(false);
+	    }
 
-            randStateIndexes.remove(randIndex);
+	    randStateIndexes.remove(randIndex);
 
 	    
-            if (!randStateIndexes.isEmpty()) {
+	    if (!randStateIndexes.isEmpty()) {
 
-		 if (this.getDifficulty().equals("Easy"))
-                {
-                    checkEndRound(easyLength);
+		if (this.getDifficulty().equals("Easy"))
+		    {
+			checkEndRound(easyLength);
+		    }
+		if (this.getDifficulty().equals("Normal"))
+		    {
+			checkEndRound(normalLength);
+		    }
+		if (this.getDifficulty().equals("Hard")){
+		    checkEndRound(hardLength);
 		}
-		 if (this.getDifficulty().equals("Normal"))
-                {
-                    checkEndRound(normalLength);
-                }
-		 if (this.getDifficulty().equals("Hard")){
-		     checkEndRound(hardLength);
-		 }
 	    }
-            gamePanel.setHintButtonVisible(false);
+	    gamePanel.setHintButtonVisible(false);
 
 	    
 	    currentScore+=10;
@@ -262,29 +274,30 @@ public class QuestionManager {
 	    if (guesses == 3)
 		gamePanel.setHintButtonVisible(true);
 
-            String stateChosen = "";
-            String capitalChosen = "";
+	    String stateChosen = "";
+	    String capitalChosen = "";
 
 	
-            for (int i = 0; i < 50; i++) {
-                if (answerButton == mapPanel.stateButtons[i]) {
-                    stateChosen = states.get(i).getName();
-                    capitalChosen = states.get(i).getCapital();
-                    break;
-                }
-            }
+	    for (int i = 0; i < 50; i++) {
+		if (answerButton == mapPanel.stateButtons[i]) {
+		    stateChosen = states.get(i).getName();
+		    capitalChosen = states.get(i).getCapital();
+		    break;
+		}
+	    }
 	    
 		
-            if (getGameMode().equals("States") || getGameMode().equals("States then Capitals")) {
-                gamePanel.getQuestionTextArea().setText("Nope! That was " + stateChosen + "! ");
-            }
-            else if (getGameMode().equals("Capitals")) {
-                gamePanel.getQuestionTextArea().setText("Nope! That was " + capitalChosen + "! ");
-            }
-            this.askNextQuestion();
-            return false;
+	    if (getGameMode().equals("States") || getGameMode().equals("States then Capitals")) {
+		gamePanel.getQuestionTextArea().setText("Nope! That was " + stateChosen + "! ");
 	    }
+	    else if (getGameMode().equals("Capitals")) {
+		gamePanel.getQuestionTextArea().setText("Nope! That was " + capitalChosen + "! ");
+	    }
+	    this.askNextQuestion();
+	    return false;
 	}
+    }
+    
     public void checkEndRound(int gameLength){
 	if (getRandStateIndex() >= gameLength) {
 	    randIndex = (int) (Math.random() * (randStateIndexes.size() - 1));
@@ -340,6 +353,4 @@ public class QuestionManager {
 	}
 	return AnswerOption.INCORRECT;
     }
-
-
 }

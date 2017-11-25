@@ -28,131 +28,132 @@ import javax.swing.JRadioButton;
  */
 
 public class FrontPanel extends JPanel {
-	private BufferedImage map;
-	private JLabel highScore;
-        private JLabel easyDescription;
-        private JLabel normalDescription;
-        private JLabel hardDescription;
+    private BufferedImage map;
+    private JLabel highScore;
+    private JLabel easyDescription;
+    private JLabel normalDescription;
+    private JLabel hardDescription;
 
-	private JButton stateButton;
-	private JButton capitalButton;
-	private JButton stateThenCapitalButton;
-	private JRadioButton easyButton;
-	private JRadioButton hardButton;
-	private JRadioButton normalButton;
-	private ButtonGroup difficulties;
+    private JButton stateButton;
+    private JButton capitalButton;
+    private JButton stateThenCapitalButton;
+    private JRadioButton easyButton;
+    private JRadioButton hardButton;
+    private JRadioButton normalButton;
+    private ButtonGroup difficulties;
 
-	public FrontPanel() {
+    public FrontPanel() {
 
-		this.setLayout(null);
-		try {
-			map = ImageIO.read(getClass().getClassLoader().getResource(
-					"image/front.jpg"));
-		} catch (IOException ie) {
-			ie.printStackTrace();
-		}
-
-		assert (map != null);
-
-		JLabel title = new JLabel("Welcome to the Country Quiz!", JLabel.CENTER);
-		Font titleFont = new Font("TimesRoman", Font.PLAIN, 50);
-		title.setFont(titleFont);
-
-		Font modeFont = new Font("TimesRoman", Font.PLAIN, 25);
-		stateButton = new JButton("States");
-		stateButton.setFont(modeFont);
-
-		JLabel highScore = createHighScoreLabel();
-		highScore.setFont(modeFont);
-
-		capitalButton = new JButton("Capitals");
-		capitalButton.setFont(modeFont);
-
-		stateThenCapitalButton = new JButton("States then Capitals");
-		stateThenCapitalButton.setFont(modeFont);
-
-		JLabel diffHeader = new JLabel("Select difficulty:", JLabel.CENTER);
-		Font diffHeaderFont = new Font("TimesRoman", Font.PLAIN, 20);
-		diffHeader.setFont(diffHeaderFont);
-
-		easyButton = new JRadioButton("Easy");
-		normalButton = new JRadioButton("Normal");
-		hardButton = new JRadioButton("Hard");
-
-	        easyDescription = new JLabel("<html>"+"-10 states-"+"<html>");
-		normalDescription = new JLabel("<html>"+"-25 states-"+"<html>");
-		hardDescription = new JLabel("<html>"+"-50 states-"+"<html>");
-        
-		easyButton.setActionCommand("Easy");
-		normalButton.setActionCommand("Normal");
-		hardButton.setActionCommand("Hard");
-
-		normalButton.setSelected(true);
-		easyButton.setOpaque(false);
-		normalButton.setOpaque(false);
-		hardButton.setOpaque(false);
-
-		difficulties = new ButtonGroup();
-		difficulties.add(easyButton);
-		difficulties.add(normalButton);
-		difficulties.add(hardButton);
-
-		title.setBounds(100, 80, 800, 200);
-		stateButton.setBounds(340, 280, 300, 100);
-		capitalButton.setBounds(340, 400, 300, 100);
-		stateThenCapitalButton.setBounds(340, 520, 300, 100);
-
-		easyDescription.setLocation(700, 320);
-                easyDescription.setSize(80, 80);
-                normalDescription.setLocation(700, 370);
-                normalDescription.setSize(80, 80);
-                hardDescription.setLocation(700, 420);
-                hardDescription.setSize(80, 80);
-
-
-		highScore.setBounds(
-				(GamePanel.SCREEN_WIDTH - highScore.getPreferredSize().width) / 2,
-				title.getY() + 140,
-				highScore.getPreferredSize().width,
-				highScore.getPreferredSize().height
-		);
-
-		diffHeader.setBounds(450, 200, 600, 200);
-		easyButton.setBounds(700, 300, 80, 80);
-		normalButton.setBounds(700, 350, 80, 80);
-		hardButton.setBounds(700, 400, 80, 80);
-
-		add(title);
-		add(highScore);
-		add(stateButton);
-		add(capitalButton);
-		add(stateThenCapitalButton);
-
-		add(diffHeader);
-		add(easyButton);
-		add(normalButton);
-		add(hardButton);
-
-		add(easyDescription);
-		add(normalDescription);
-		add(hardDescription);
-		
-		setVisible(true);
-		repaint();
-	}
-
-    private JLabel createHighScoreLabel() {
-	File file = new File("high_score.txt");
-	JLabel label = new JLabel("High Score: 0");
+	this.setLayout(null);
 	try {
-	    Scanner scanner = new Scanner(file);
-	    int highScore = scanner.nextInt();
-	    label.setText("High Score: " + Integer.toString(highScore));
-	} catch (FileNotFoundException e) {
-	    e.printStackTrace();
+	    map = ImageIO.read(getClass().getClassLoader().getResource(
+								       "image/front.jpg"));
+	} catch (IOException ie) {
+	    ie.printStackTrace();
 	}
-	return label;
+
+	assert (map != null);
+
+	JLabel title = new JLabel("Welcome to the Country Quiz!", JLabel.CENTER);
+	Font titleFont = new Font("TimesRoman", Font.PLAIN, 50);
+	title.setFont(titleFont);
+
+	Font modeFont = new Font("TimesRoman", Font.PLAIN, 25);
+	stateButton = new JButton("States");
+	stateButton.setFont(modeFont);
+		
+	//JLabel highScore = createHighScoreLabel();
+	//highScore.setFont(modeFont);
+
+	capitalButton = new JButton("Capitals");
+	capitalButton.setFont(modeFont);
+
+	stateThenCapitalButton = new JButton("States then Capitals");
+	stateThenCapitalButton.setFont(modeFont);
+
+	JLabel diffHeader = new JLabel("Select difficulty:", JLabel.CENTER);
+	Font diffHeaderFont = new Font("TimesRoman", Font.PLAIN, 20);
+	diffHeader.setFont(diffHeaderFont);
+
+	easyButton = new JRadioButton("Easy");
+	normalButton = new JRadioButton("Normal");
+	hardButton = new JRadioButton("Hard");
+
+	easyDescription = new JLabel("<html>"+"-10 states-"+"<html>");
+	normalDescription = new JLabel("<html>"+"-25 states-"+"<html>");
+	hardDescription = new JLabel("<html>"+"-50 states-"+"<html>");
+        
+	easyButton.setActionCommand("Easy");
+	normalButton.setActionCommand("Normal");
+	hardButton.setActionCommand("Hard");
+
+	normalButton.setSelected(true);
+	easyButton.setOpaque(false);
+	normalButton.setOpaque(false);
+	hardButton.setOpaque(false);
+
+	difficulties = new ButtonGroup();
+	difficulties.add(easyButton);
+	difficulties.add(normalButton);
+	difficulties.add(hardButton);
+
+	title.setBounds(100, 80, 800, 200);
+	stateButton.setBounds(340, 280, 300, 100);
+	capitalButton.setBounds(340, 400, 300, 100);
+	stateThenCapitalButton.setBounds(340, 520, 300, 100);
+
+	easyDescription.setLocation(700, 320);
+	easyDescription.setSize(80, 80);
+	normalDescription.setLocation(700, 370);
+	normalDescription.setSize(80, 80);
+	hardDescription.setLocation(700, 420);
+	hardDescription.setSize(80, 80);
+
+	/*
+	highScore.setBounds(
+			    (GamePanel.SCREEN_WIDTH - highScore.getPreferredSize().width) / 2,
+			    title.getY() + 140,
+			    highScore.getPreferredSize().width,
+			    highScore.getPreferredSize().height
+			    );
+	*/
+	diffHeader.setBounds(450, 200, 600, 200);
+	easyButton.setBounds(700, 300, 80, 80);
+	normalButton.setBounds(700, 350, 80, 80);
+	hardButton.setBounds(700, 400, 80, 80);
+
+	add(title);
+	//add(highScore);
+	add(stateButton);
+	add(capitalButton);
+	add(stateThenCapitalButton);
+
+	add(diffHeader);
+	add(easyButton);
+	add(normalButton);
+	add(hardButton);
+
+	add(easyDescription);
+	add(normalDescription);
+	add(hardDescription);
+		
+	setVisible(true);
+	repaint();
     }
+    /*
+      private JLabel createHighScoreLabel() {
+      File file = new File("high_score.txt");
+      JLabel label = new JLabel("High Score: 0");
+      try {
+      Scanner scanner = new Scanner(file);
+      int highScore = scanner.nextInt();
+      label.setText("High Score: " + Integer.toString(highScore));
+      } catch (FileNotFoundException e) {
+      e.printStackTrace();
+      }
+      return label;
+      }
+    */
 
     public void paintComponent(Graphics g) {
 	g.drawImage(map, 0, 0, 980, 680, this);

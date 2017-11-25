@@ -47,4 +47,8 @@ public class StopWatch extends JLabel {
     public void addPenalty() {
         time += 3;
     }
+
+    public int getTime() {
+	return time;
+    }
 }

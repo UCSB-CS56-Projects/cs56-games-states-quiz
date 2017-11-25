@@ -83,14 +83,16 @@ public class Country {
 	String quadrant;
 
 	for (int i = 0; i < numberOfStates; i++) {
-	    line = scanner.nextLine();
-	    String[] splitted = line.split(",");
+	    if (scanner.hasNextLine()) {
+		line = scanner.nextLine();
+		String[] splitted = line.split(",");
 
-	    x = Integer.parseInt(splitted[2]);
-	    y = Integer.parseInt(splitted[3]);
-	    quadrant = splitted[4];
+		x = Integer.parseInt(splitted[2]);
+		y = Integer.parseInt(splitted[3]);
+		quadrant = splitted[4];
 	    
-	    states.add(new State(splitted[0], splitted[1], x, y, quadrant));
+		states.add(new State(splitted[0], splitted[1], x, y, quadrant));
+	    }
 	}
     }
 
