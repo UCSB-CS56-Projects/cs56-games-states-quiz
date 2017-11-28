@@ -140,6 +140,18 @@ public class QuestionManager {
     public int getRandStateIndex(){
 	return this.randStateIndexes.size();
     }
+
+    public int getModeLength() {
+	switch (difficulty) {
+	case "Easy":
+	    return easyLength;
+	case "Normal":
+	    return normalLength;
+	case "Hard":
+	    return hardLength;
+	}
+	return 0;
+    }
     
     public void askNextQuestion() {     
 	if (!randStateIndexes.isEmpty()) {
@@ -151,6 +163,7 @@ public class QuestionManager {
 	    mapPanel.setAnswer(mapPanel.stateButtons[currentQuestion]);
 	}
 	else{
+	    currentScore += 10
 	    endRound();
 	}
     }
@@ -190,7 +203,7 @@ public class QuestionManager {
 
     public void recordHighScore(String username) {
 	String file = "high_scores" + "/" +  gameMode + "/" + difficulty + ".txt";
-	int time = gamePanel.getStopWatch().getTime();
+	String time = gamePanel.getStopWatch().getFormattedTime();
 	try {
 	    FileWriter fw = new FileWriter(file, true);
 	    BufferedWriter writer = new BufferedWriter(fw);
@@ -239,18 +252,7 @@ public class QuestionManager {
 
 	    
 	    if (!randStateIndexes.isEmpty()) {
-
-		if (this.getDifficulty().equals("Easy"))
-		    {
-			checkEndRound(easyLength);
-		    }
-		if (this.getDifficulty().equals("Normal"))
-		    {
-			checkEndRound(normalLength);
-		    }
-		if (this.getDifficulty().equals("Hard")){
-		    checkEndRound(hardLength);
-		}
+		checkEndRound(getModeLength());
 	    }
 	    gamePanel.setHintButtonVisible(false);
 
@@ -299,6 +301,7 @@ public class QuestionManager {
     }
     
     public void checkEndRound(int gameLength){
+	
 	if (getRandStateIndex() >= gameLength) {
 	    randIndex = (int) (Math.random() * (randStateIndexes.size() - 1));
 	    currentQuestion = randStateIndexes.get(randIndex);
@@ -348,7 +351,7 @@ public class QuestionManager {
 					       JOptionPane.PLAIN_MESSAGE);
 	if (s == null) {
 	    return AnswerOption.NO_ANSWER;
-	} else if (s.equals(states.get(currentQuestion).getCapital())) {
+	} else if ((s.toLowerCase()).equals((states.get(currentQuestion).getCapital()).toLowerCase())) {
 	    return AnswerOption.CORRECT;
 	}
 	return AnswerOption.INCORRECT;
