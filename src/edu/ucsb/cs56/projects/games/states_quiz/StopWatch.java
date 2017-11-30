@@ -13,6 +13,8 @@ import javax.swing.*;
 public class StopWatch extends JLabel {
 
     private int time = 0;
+    private Timer timer;
+    private String formattedTime;
 
     public StopWatch(int x, int y, int width, int height) {
         super();
@@ -33,11 +35,11 @@ public class StopWatch extends JLabel {
 
             time = time + 1;
 
-	    String text = String.format("%02d:%02d", minutes, seconds);
+	    formattedTime = String.format("%02d:%02d", minutes, seconds);
 
-	    setText("Time Elapsed: "+ text);
+	    setText("Time Elapsed: "+ formattedTime);
         };
-        Timer timer = new Timer(1000, task); // Execute task each 1000 milliseconds           
+        timer = new Timer(1000, task); // Execute task each 1000 milliseconds           
         setOpaque(true);
         timer.start();
 
@@ -48,7 +50,11 @@ public class StopWatch extends JLabel {
         time += 3;
     }
 
-    public int getTime() {
-	return time;
+    public String getFormattedTime() {
+	return formattedTime;
+    }
+
+    public void stop() {
+	timer.stop();
     }
 }
