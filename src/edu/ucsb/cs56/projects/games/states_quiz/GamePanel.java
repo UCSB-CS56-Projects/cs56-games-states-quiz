@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
+
 /**
  * GamePanel sets up the GamePanel with the frame that holds the text for questions and answers and the scrollbar.
  *
@@ -38,6 +39,7 @@ public class GamePanel extends JPanel {
     private JButton startButton;
     private Runnable reloadFrame;
     private QuestionManager questionManager;
+    
     private StopWatch stopWatch;
    
     public GamePanel(Runnable reloadFrame) {
@@ -105,7 +107,7 @@ public class GamePanel extends JPanel {
         homeButton.setVisible(true);
         homeButton.setBounds(x, y, w, h);
         homeButton.addActionListener(e -> {
-		questionManager.recordHighScore();
+		questionManager.endRound();
 		reloadFrame.run();
 	    });
         return homeButton;
