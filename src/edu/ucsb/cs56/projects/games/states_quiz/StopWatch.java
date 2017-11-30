@@ -13,18 +13,19 @@ import javax.swing.*;
 public class StopWatch extends JLabel {
 
     private int time = 0;
-
+    private Timer timer;
+	
     public StopWatch(int x, int y, int width, int height) {
-        super();
+	super();
         setBounds(x, y, width, height);
         setVisible(true);
 
-           }
-
+    }
+    
     /**
      * Starts the stopwatch
      */
-
+    
     public void start() {
 
         ActionListener task = evt -> {
@@ -37,11 +38,13 @@ public class StopWatch extends JLabel {
 
 	    setText("Time Elapsed: "+ text);
         };
-        Timer timer = new Timer(1000, task); // Execute task each 1000 milliseconds           
+        timer = new Timer(1000, task); // Execute task each 1000 milliseconds           
         setOpaque(true);
-        timer.start();
+	timer.start();
+    }
 
-
+    public void stop(){
+	timer.stop();
     }
 
     public void addPenalty() {

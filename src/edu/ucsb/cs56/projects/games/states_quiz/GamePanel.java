@@ -35,11 +35,11 @@ public class GamePanel extends JPanel {
 
     private JScrollPane questionScrollPane;
     private JButton hintButton;
+    private JButton startButton;
     private Runnable reloadFrame;
     private QuestionManager questionManager;
     private StopWatch stopWatch;
-    private ReadyGo readyGo;
-
+   
     public GamePanel(Runnable reloadFrame) {
         this.reloadFrame = reloadFrame;
         Font ourFont = new Font("Verdana", Font.BOLD, 24);
@@ -58,7 +58,10 @@ public class GamePanel extends JPanel {
         int homeY = (int) (.55 * SCREEN_HEIGHT);
         JButton homeButton = this.generateHomeButton(homeX, homeY, 180, 60, "Main Menu");
         mapPanel.add(homeButton);
-	
+
+	int startX = (int) (.77 * SCREEN_WIDTH);
+        int startY = (int) (.3 * SCREEN_HEIGHT); 
+	startButton = generateStartButton(startX, startY, 180, 60, "Start");
 
         this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -69,13 +72,8 @@ public class GamePanel extends JPanel {
 
         this.add(questionScrollPane, BorderLayout.SOUTH);
 
-        stopWatch = new StopWatch((int) (.8 * SCREEN_WIDTH), (int) (.4 * SCREEN_HEIGHT), 180, 80);
-        mapPanel.add(stopWatch);
-        stopWatch.start();
-
-	readyGo = new ReadyGo((int) (.85 * SCREEN_WIDTH), (int) (.3 * SCREEN_HEIGHT), 180, 80);
-        mapPanel.add(readyGo);
-        readyGo.readyGoStart();
+	stopWatch = new StopWatch((int) (.8 * SCREEN_WIDTH), (int) (.4 * SCREEN_HEIGHT), 180, 80);
+	mapPanel.add(stopWatch);
 
         this.setVisible(false);
         this.repaint();
@@ -85,6 +83,21 @@ public class GamePanel extends JPanel {
         return stopWatch;
     }
 
+    private JButton generateStartButton(int x, int y, int w, int h, String text){
+	startButton = new JButton();
+	mapPanel.add(startButton);
+	startButton.setText("<html>" + text + "</html>");
+        startButton.setVisible(true);
+        startButton.setBounds(x, y, w, h);
+        startButton.addActionListener(e ->{
+	    stopWatch.start();
+	    startButton.setVisible(false);
+	    revalidate();
+	    repaint();
+	    });
+	return startButton;
+    }
+    
     private JButton generateHomeButton(int x, int y, int w, int h, String text) {
         JButton homeButton = new JButton();
         homeButton.setText("<html>" + text + "</html>");
@@ -123,6 +136,7 @@ public class GamePanel extends JPanel {
 	    });
         return hintButton;
     }
+    
 
     /**
      * @param rows rows of the question text area
