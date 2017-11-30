@@ -39,17 +39,4 @@ public class HighscoreDialog extends JDialog {
 	this.setLocationRelativeTo(null);
 	this.setVisible(true);
     }
-
-    public void writeHighScores(File file) {
-	try {
-	    BufferedReader in = new BufferedReader(new FileReader(file));
-	    String line = in.readLine();
-	    while(line != null){
-		scoreArea.append(line + "\n");
-		line = in.readLine();
-	    }
-	} catch(IOException e){
-	    e.printStackTrace();
-	}
-    }
 }
