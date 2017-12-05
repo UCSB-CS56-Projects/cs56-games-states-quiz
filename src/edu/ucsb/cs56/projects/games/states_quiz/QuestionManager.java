@@ -165,7 +165,7 @@ public class QuestionManager {
 	    mapPanel.setAnswer(mapPanel.stateButtons[currentQuestion]);
 	}
 	else{
-	    currentScore += 10
+	    currentScore += 10;
 	    endRound();
 	}
     }
