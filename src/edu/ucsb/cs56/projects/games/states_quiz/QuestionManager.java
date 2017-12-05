@@ -11,6 +11,8 @@ import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 /**
  * QuestionManager manages the current question and score
@@ -196,9 +198,9 @@ public class QuestionManager {
     }
 
     public void showHighScores() {
-	HighscoreFrame hsf = new HighscoreFrame();
+	JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(gamePanel);
 	File file = new File("high_scores/" + gameMode + "/"  + difficulty  + ".txt");
-	hsf.writeHighScores(file);
+	HighscoreDialog hsd = new HighscoreDialog(frame, 500, 500, file);
     }
 
     public void recordHighScore(String username) {

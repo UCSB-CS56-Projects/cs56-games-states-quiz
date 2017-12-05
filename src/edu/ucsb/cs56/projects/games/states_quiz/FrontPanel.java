@@ -46,8 +46,7 @@ public class FrontPanel extends JPanel {
 
 	this.setLayout(null);
 	try {
-	    map = ImageIO.read(getClass().getClassLoader().getResource(
-								       "image/front.jpg"));
+	    map = ImageIO.read(getClass().getClassLoader().getResource("image/front.jpg"));
 	} catch (IOException ie) {
 	    ie.printStackTrace();
 	}
@@ -61,9 +60,6 @@ public class FrontPanel extends JPanel {
 	Font modeFont = new Font("TimesRoman", Font.PLAIN, 25);
 	stateButton = new JButton("States");
 	stateButton.setFont(modeFont);
-		
-	//JLabel highScore = createHighScoreLabel();
-	//highScore.setFont(modeFont);
 
 	capitalButton = new JButton("Capitals");
 	capitalButton.setFont(modeFont);
@@ -109,21 +105,12 @@ public class FrontPanel extends JPanel {
 	hardDescription.setLocation(700, 420);
 	hardDescription.setSize(80, 80);
 
-	/*
-	highScore.setBounds(
-			    (GamePanel.SCREEN_WIDTH - highScore.getPreferredSize().width) / 2,
-			    title.getY() + 140,
-			    highScore.getPreferredSize().width,
-			    highScore.getPreferredSize().height
-			    );
-	*/
 	diffHeader.setBounds(450, 200, 600, 200);
 	easyButton.setBounds(700, 300, 80, 80);
 	normalButton.setBounds(700, 350, 80, 80);
 	hardButton.setBounds(700, 400, 80, 80);
 
 	add(title);
-	//add(highScore);
 	add(stateButton);
 	add(capitalButton);
 	add(stateThenCapitalButton);
@@ -140,20 +127,6 @@ public class FrontPanel extends JPanel {
 	setVisible(true);
 	repaint();
     }
-    /*
-      private JLabel createHighScoreLabel() {
-      File file = new File("high_score.txt");
-      JLabel label = new JLabel("High Score: 0");
-      try {
-      Scanner scanner = new Scanner(file);
-      int highScore = scanner.nextInt();
-      label.setText("High Score: " + Integer.toString(highScore));
-      } catch (FileNotFoundException e) {
-      e.printStackTrace();
-      }
-      return label;
-      }
-    */
 
     public void paintComponent(Graphics g) {
 	g.drawImage(map, 0, 0, 980, 680, this);
