@@ -125,3 +125,17 @@ This game has plenty of room for improvement!
 	- expand the high score system- add nicknames, save scores from each mode, encrypt the file
 	- implement an online chat room system
 	- add an options menu (for muting the sound effects, etc.)
+
+## F17 FINAL REMARKS
+
+* Some helpful tips before starting this project is to play the game and figure out where the features are coded and how each class works together. QuestionManager is quite long and is probably hard to understand. It is where a lot of the action happens (recording answers, keeping score, etc), but once you understand it, it helps with the majority of the game. It could definitely use A LOT of refactoring to make it easier to understand. The game is pretty good so far, and we think there is more to add than there is to fix. Also, try to add some tests. There's literally zero tests. 
+
+### Ideas for future developers
+    - Refactor QuestionManager (pls, it's so bad :( )
+    - Alabama is left out of the game. No button and no question for it.
+    - Make the buttons un-clickable before the game starts.
+    - Improve the GUI. It looks very old school. ADD SOME PIZZAZZ!!
+    - Have the score be visible at all times. Currently, the score is not visible when you click on a wrong answer.
+    - The hint from a previous question does not disappear until a new hint is available. Make it disappear!
+    - Change the "Cancel" button to "Skip" in the States and Capitals mode (maybe deduct some points for that too)
+    - Add skip option to all game modes.
