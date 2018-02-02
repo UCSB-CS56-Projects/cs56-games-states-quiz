@@ -1,4 +1,4 @@
-# Lab 00: Looking at States Quiz Game
+# Proj 00: Looking at States Quiz Game
 
 1. The project is a game that quizzes you on the location of US states and their capitals.
 2. Our set of user stories:
