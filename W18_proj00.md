@@ -20,4 +20,5 @@ D) Potential User Stories:
    
 E) The current `README.md` has a good amount of information. It includes what the different classes actually do. `FrontPanel` takes care of the actual inputs and buttons while `GamePanel` takes care of the actual quiz. It tells us how to correctly run the game. Something that could be added is to have updated pictures showing the most current iteration. It has a note clarifying this, but instead could have a note that says to have the most recent iteration.
 
-F) 
+F) Current build.xml is functioning. It can build, run, create javadocs, and create a jar file. Adding tests would be useful. The build and source files are in src or build in a bunch of nested folders at edu/ucsb/cs56/projects/games/states_quiz. That would be nice to clean up.
+
