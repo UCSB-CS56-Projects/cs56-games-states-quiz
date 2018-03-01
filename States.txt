@@ -1,4 +1,5 @@
 Alaska,Juneau,209,429,Northwest
+Alabama,Montgomery,492,309,Southeast
 Arizona,Phoenix,150,281,Northwest
 Arkansas,Little Rock,410,274,Northeast
 California,Sacramento,51,216,Northwest
