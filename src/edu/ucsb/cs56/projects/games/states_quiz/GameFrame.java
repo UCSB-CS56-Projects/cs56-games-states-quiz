@@ -27,65 +27,65 @@ public class GameFrame extends JFrame implements ActionListener {
     private QuestionManager questionManager;
 
     public GameFrame() {
-	init();
+        init();
     }
 
     private void init() {
-	gamePanel = new GamePanel(
-				  () -> {
-				      GameFrame.this.getContentPane().removeAll();
-				      GameFrame.this.init();
-				  }
-				  );
-	questionManager = new QuestionManager(gamePanel, () -> {
-		GameFrame.this.getContentPane().removeAll();
-		GameFrame.this.init();
-	    });
-	gamePanel.setQuestionManager(questionManager);
+        gamePanel = new GamePanel(
+                () -> {
+                    GameFrame.this.getContentPane().removeAll();
+                    GameFrame.this.init();
+                }
+        );
+        questionManager = new QuestionManager(gamePanel, () -> {
+            GameFrame.this.getContentPane().removeAll();
+            GameFrame.this.init();
+        });
+        gamePanel.setQuestionManager(questionManager);
 
-	frontPanel = new FrontPanel();
+        frontPanel = new FrontPanel();
 
-	frontPanel.getStateButton().addActionListener(this);
-	frontPanel.getCapitalButton().addActionListener(this);
-	frontPanel.getStateThenCapitalButton().addActionListener(this);
+        frontPanel.getStateButton().addActionListener(this);
+        frontPanel.getCapitalButton().addActionListener(this);
+        frontPanel.getStateThenCapitalButton().addActionListener(this);
 
-	this.setResizable(false);
-	this.getContentPane().add(gamePanel);
-	this.getContentPane().add(frontPanel);
-	this.setMinimumSize(frameDimension);
+        this.setResizable(false);
+        this.getContentPane().add(gamePanel);
+        this.getContentPane().add(frontPanel);
+        this.setMinimumSize(frameDimension);
 
-	this.setTitle("You think you know all US states?");
-	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setTitle("You think you know all US states?");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-	this.setVisible(true);
+        this.setVisible(true);
     }
 
     public static void main(String[] args) {
-	new GameFrame();
+        new GameFrame();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-	frontPanel.setVisible(false);
-	gamePanel.setVisible(true);
+        frontPanel.setVisible(false);
+        gamePanel.setVisible(true);
 
 
-	if (e.getActionCommand().matches("Capitals")) {
-	    questionManager.setGameMode("Capitals");
-	    System.out.println("Capitals");
-	    this.setTitle("Capitals");
-	} else if (e.getActionCommand().matches("States")) {
-	    questionManager.setGameMode("States");
-	    System.out.println("States");
-	    this.setTitle("States");
-	} else if (e.getActionCommand().matches("States then Capitals")) {
-	    questionManager.setGameMode("States then Capitals");
-	    System.out.println("States then Capitals");
-	    this.setTitle("States then Capitals");
-	}
-	ButtonModel selectedDiff = frontPanel.getDifficultiesGroup().getSelection();
-	questionManager.init();
-	questionManager.setDifficulty(selectedDiff.getActionCommand());
-	System.out.println(questionManager.getDifficulty());
+        if (e.getActionCommand().matches("Capitals")) {
+            questionManager.setGameMode("Capitals");
+            System.out.println("Capitals");
+            this.setTitle("Capitals");
+        } else if (e.getActionCommand().matches("States")) {
+            questionManager.setGameMode("States");
+            System.out.println("States");
+            this.setTitle("States");
+        } else if (e.getActionCommand().matches("States then Capitals")) {
+            questionManager.setGameMode("States then Capitals");
+            System.out.println("States then Capitals");
+            this.setTitle("States then Capitals");
+        }
+        ButtonModel selectedDiff = frontPanel.getDifficultiesGroup().getSelection();
+        questionManager.init();
+        questionManager.setDifficulty(selectedDiff.getActionCommand());
+        System.out.println(questionManager.getDifficulty());
     }
 }
