@@ -314,8 +314,12 @@ public class QuestionManager {
 
     private AnswerOption checkCapital() {
         AnswerOption answer = askCapital();
+        boolean isFirst = true;
         while (answer == AnswerOption.INCORRECT) {
-            gamePanel.appendQuestionTextArea("Capital is Incorrect! ");
+            if (isFirst) {
+                gamePanel.appendQuestionTextArea("Capital is Incorrect! ");
+                isFirst = false;
+            }
             answer = askCapital();
             this.guesses++;
             gamePanel.getStopWatch().addPenalty();
