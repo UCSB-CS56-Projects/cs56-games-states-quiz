@@ -1,3 +1,4 @@
+package edu.ucsb.cs56.projects.games.states_quiz;
 /** 
 *   NameErrorChecker compares strings, expressed in integer value of "errors"
 *   that aims to scale inversely with human intuition of "similarity"
@@ -27,9 +28,9 @@ class NameErrorChecker {
     */  
     public int numberOfErrors(String other){
         int errors = 0;
-        errors += this.letterInclusionErrors(other) * 2;
+        errors += this.letterInclusionErrors(other);
         errors += java.lang.Math.abs(this.data.length() - other.length());
-        errors += this.sequentialityErrors(other) + (new NameErrorChecker(other)).sequentialityErrors(this.data);
+        errors += this.sequentialityErrors(other);
 
         return errors;
     }
@@ -74,15 +75,23 @@ class NameErrorChecker {
     */
     private int letterInclusionErrors(String other) {
         int errors = 0;
-        String alphabet = "abcdefghijklmnopqrstuvwxyz";
+        String alphabet = new String("abcdefghijklmnopqrstuvwxyz");
 
         for (int i = 0; i < 26; i++) {
             int thisNextIndex = -1;
             int otherNextIndex = -1;
 
             do {
-                otherNextIndex = other.toLowerCase().indexOf(alphabet.charAt(i),otherNextIndex + 1);
-                thisNextIndex = this.data.toLowerCase().indexOf(alphabet.charAt(i),thisNextIndex + 1);
+                if (otherNextIndex < other.length() - 1){
+                    otherNextIndex = other.toLowerCase().indexOf(alphabet.charAt(i),otherNextIndex + 1);
+                } else {
+                    otherNextIndex = -1;
+                }
+                if (thisNextIndex < this.data.length() - 1){
+                    thisNextIndex = this.data.toLowerCase().indexOf(alphabet.charAt(i),thisNextIndex + 1);
+                } else {
+                    thisNextIndex = -1;
+                }
             } while ((otherNextIndex != -1) && (thisNextIndex != -1));
 
             if (otherNextIndex != thisNextIndex) {

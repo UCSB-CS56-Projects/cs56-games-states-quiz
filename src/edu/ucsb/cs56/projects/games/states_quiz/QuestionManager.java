@@ -73,7 +73,7 @@ public class QuestionManager {
             randStateIndexes.add(i);
         }
     }
-}
+
 
     /**
      * Sets the current question and score to zero and then asks the first
@@ -151,11 +151,11 @@ public class QuestionManager {
     public int getModeLength() {
         switch (difficulty) {
             case "Easy":
-                return easyLength;
+            return easyLength;
             case "Normal":
-                return normalLength;
+            return normalLength;
             case "Hard":
-                return hardLength;
+            return hardLength;
         }
         return 0;
     }
@@ -183,17 +183,17 @@ public class QuestionManager {
         gamePanel.appendQuestionTextArea("Round has ended!");
         UIManager.put("OptionPane.cancelButtonText", "Cancel");
         String username = JOptionPane.showInputDialog(
-                gamePanel.getParent(),
-                "Game over. Your score: " + currentScore,
-                "Enter a username");
+            gamePanel.getParent(),
+            "Game over. Your score: " + currentScore,
+            "Enter a username");
 
         recordHighScore(username);
         showHighScores();
         int n = JOptionPane.showConfirmDialog(
-                gamePanel.getParent(),
-                "Would you like to play again?",
-                "Congratulations!",
-                JOptionPane.YES_NO_OPTION);
+            gamePanel.getParent(),
+            "Would you like to play again?",
+            "Congratulations!",
+            JOptionPane.YES_NO_OPTION);
         if (n == JOptionPane.NO_OPTION) {
             System.exit(0);
         } else {
@@ -340,18 +340,17 @@ public class QuestionManager {
      */
 
     private AnswerOption checkCapital() {
+        StateErrorChecker errorChecker = new StateErrorChecker(states.get(currentQuestion).getName());
         AnswerOption answer = askCapital();
         boolean isFirst = true;
-        StateErrorChecker errorChecker = new StateErrorChecker(states.get(currentQuestion).getName());
-
+        String otherDisplayText = "";
         while (answer == AnswerOption.INCORRECT) {
             if (isFirst) {
-                String otherDisplayText = gamePanel.getQuestionTextArea();
-                gamePanel.appendQuestionTextArea(errorChecker.guessCritique());
+                otherDisplayText = gamePanel.getQuestionTextArea().getAccessibleContext().getAccessibleText().getAtIndex(0,3);
+                gamePanel.appendQuestionTextArea(errorChecker.guessCritique(answer.getMessage()));
                 isFirst = false;
-            } else {
-                gamePanel.setQuestionTextArea(otherDisplayText + "\n" + errorChecker.guessCritique())
-            }
+            }            
+            gamePanel.setQuestionTextArea(errorChecker.guessCritique(answer.getMessage()));
             answer = askCapital();
             this.guesses++;
             gamePanel.getStopWatch().addPenalty();
@@ -361,20 +360,15 @@ public class QuestionManager {
         }
         return answer;
     }
-    if (answer == AnswerOption.NO_ANSWER) {
-       guesses++;
-   }
-   return answer;
+ public void isHintButtonClicked(boolean hintButtonClicked) {
+    if (hintButtonClicked) {
+        this.currentScore -= 2;
+    }
 }
-    public void isHintButtonClicked(boolean hintButtonClicked) {
-        if (hintButtonClicked) {
-            this.currentScore -= 2;
-        }
-    }
 
-    public void setIsSkip(boolean skip) {
-        isSkip = skip;
-    }
+public void setIsSkip(boolean skip) {
+    isSkip = skip;
+}
 
     /**
      * Called by checkCapital during StateThenCapitals mode
@@ -386,10 +380,11 @@ public class QuestionManager {
     private AnswerOption askCapital() {
         UIManager.put("OptionPane.cancelButtonText", "Skip");
         String s = JOptionPane.showInputDialog(
-                gamePanel.getParent(),
-                "Enter the capital of " + states.get(currentQuestion).getName() + ":",
-                "Capital Input",
-                JOptionPane.PLAIN_MESSAGE);
+            gamePanel.getParent(),
+            "Enter the capital of " + states.get(currentQuestion).getName() + ":",
+            "Capital Input",
+            JOptionPane.PLAIN_MESSAGE);
+        System.out.print(s);
         if (s == null || s.equals("Skip")) {
             return AnswerOption.NO_ANSWER;
         } else if ((s.toLowerCase()).equals((states.get(currentQuestion).getCapital()).toLowerCase())) {
