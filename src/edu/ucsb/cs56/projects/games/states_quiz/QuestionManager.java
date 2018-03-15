@@ -32,6 +32,8 @@ public class QuestionManager {
     protected GamePanel gamePanel;
     protected MapPanel mapPanel;
 
+    protected boolean isSkip;
+
     protected String gameMode;
     protected String difficulty;
     protected String option;
@@ -59,6 +61,8 @@ public class QuestionManager {
         correctStates = new ArrayList<State>();
         randStateIndexes = new ArrayList<Integer>();
         hiddenButtons = new ArrayList<JButton>();
+
+        isSkip = false;
 
         gamePanel = parent;
         mapPanel = gamePanel.getMapPanel();
@@ -184,7 +188,6 @@ public class QuestionManager {
 
         recordHighScore(username);
         showHighScores();
-        System.out.println("Hello?\n");
         int n = JOptionPane.showConfirmDialog(
                 gamePanel.getParent(),
                 "Would you like to play again?",
@@ -226,7 +229,27 @@ public class QuestionManager {
      * @param answerButton JButton that represents answer input
      */
     public boolean receiveAnswer(JButton answerButton) {
-        if (answerButton == mapPanel.stateButtons[currentQuestion]) {
+        if (isSkip) {
+            setIsSkip(false);
+
+            String message = AnswerOption.NO_ANSWER.getMessage();
+            gamePanel.setQuestionTextArea(message);
+            gamePanel.getStopWatch().addPenalty();
+
+            randStateIndexes.remove(randIndex);
+
+            if (!randStateIndexes.isEmpty()) {
+                checkEndRound(getModeLength());
+            }
+            gamePanel.setHintButtonVisible(false);
+
+            currentScore -= 3;
+            this.guesses = 0;
+
+            gamePanel.appendQuestionTextArea("Your current score is: " + currentScore + "\n");
+            this.askNextQuestion();
+            return true;
+        } else if (answerButton == mapPanel.stateButtons[currentQuestion]) {
             AnswerOption answer = null;
             if (getGameMode().equals("States then Capitals")) {
                 answer = checkCapital();
@@ -257,7 +280,6 @@ public class QuestionManager {
                 checkEndRound(getModeLength());
             }
             gamePanel.setHintButtonVisible(false);
-
 
             currentScore += 10;
             currentScore -= (guesses * 2);
@@ -338,6 +360,10 @@ public class QuestionManager {
         if (hintButtonClicked) {
             this.currentScore -= 2;
         }
+    }
+
+    public void setIsSkip(boolean skip) {
+        isSkip = skip;
     }
 
     /**
