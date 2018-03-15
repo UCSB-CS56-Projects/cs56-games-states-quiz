@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 /**
  * QuestionManager manages the current question and score
@@ -175,12 +176,15 @@ public class QuestionManager {
     public void endRound() {
         mapPanel.getSoundManager().playCompletedSound();
         gamePanel.appendQuestionTextArea("Round has ended!");
+        UIManager.put("OptionPane.cancelButtonText", "Cancel");
         String username = JOptionPane.showInputDialog(
                 gamePanel.getParent(),
                 "Game over. Your score: " + currentScore,
                 "Enter a username");
+
         recordHighScore(username);
         showHighScores();
+        System.out.println("Hello?\n");
         int n = JOptionPane.showConfirmDialog(
                 gamePanel.getParent(),
                 "Would you like to play again?",
@@ -340,16 +344,17 @@ public class QuestionManager {
      * Called by checkCapital during StateThenCapitals mode
      * Prompts the user for the capital of the current state
      *
-     * @return boolean representing if capital input is correct or not
+     * @return AnswerOption representing if capital input is correct or not
      */
 
     private AnswerOption askCapital() {
+        UIManager.put("OptionPane.cancelButtonText", "Skip");
         String s = JOptionPane.showInputDialog(
                 gamePanel.getParent(),
                 "Enter the capital of " + states.get(currentQuestion).getName() + ":",
                 "Capital Input",
                 JOptionPane.PLAIN_MESSAGE);
-        if (s == null) {
+        if (s == null || s.equals("Skip")) {
             return AnswerOption.NO_ANSWER;
         } else if ((s.toLowerCase()).equals((states.get(currentQuestion).getCapital()).toLowerCase())) {
             return AnswerOption.CORRECT;
