@@ -44,45 +44,46 @@ public class MapPanel extends JPanel implements ActionListener {
 
     public MapPanel() {
 
-	this.setLayout(null);
+        this.setLayout(null);
 
-	try {
-	    map = ImageIO.read(getClass().getClassLoader().getResource("image/map-of-united-states.jpg"));
-	} catch (IOException ie) {
-	    ie.printStackTrace();
-	}
-	this.repaint();
+        try {
+            map = ImageIO.read(getClass().getClassLoader().getResource("image/map-of-united-states.jpg"));
+        } catch (IOException ie) {
+            ie.printStackTrace();
+        }
+        this.repaint();
 
-	stateButtons = new JButton[NUM_STATES];
+        stateButtons = new JButton[NUM_STATES];
 
-	int x = 0;
-	int y = 0;
-	int width = 25;
-	int height = 25;
+        int x = 0;
+        int y = 0;
+        int width = 25;
+        int height = 25;
 
-	File fileName = new File(STATES_FILE_NAME);
+        File fileName = new File(STATES_FILE_NAME);
 
-	c = new Country();
-	try {
-	    c.addStates(NUM_STATES, fileName);
-	} catch (Exception e) {
-	    e.printStackTrace();
-	}
+        c = new Country();
+        try {
+            c.addStates(NUM_STATES, fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-	statesArray = c.getStatesArray();
+        statesArray = c.getStatesArray();
 
-	soundManager = new SoundManager();
+        soundManager = new SoundManager();
 
-	for (int i = 0; i < statesArray.size(); i++) {
-	    stateButtons[i] = new JButton();
-	    this.add(stateButtons[i]);
+        for (int i = 0; i < statesArray.size(); i++) {
+            stateButtons[i] = new JButton();
+            this.add(stateButtons[i]);
 
-	    x = statesArray.get(i).getXCoord();
-	    y = statesArray.get(i).getYCoord();
+            x = statesArray.get(i).getXCoord();
+            y = statesArray.get(i).getYCoord();
 
-	    stateButtons[i].setBounds(x, y, width, height);
-	    stateButtons[i].addActionListener(this);
-	}
+            stateButtons[i].setBounds(x, y, width, height);
+            stateButtons[i].addActionListener(this);
+            stateButtons[i].setVisible(false);
+        }
 
 
     }
@@ -92,7 +93,7 @@ public class MapPanel extends JPanel implements ActionListener {
      */
 
     public void paintComponent(Graphics g) {
-	g.drawImage(map, 0, 0, this);
+        g.drawImage(map, 0, 0, this);
     }
 
     /**
@@ -100,7 +101,7 @@ public class MapPanel extends JPanel implements ActionListener {
      */
 
     public QuestionManager getQuestionManager() {
-	return this.questionManager;
+        return this.questionManager;
     }
 
     /**
@@ -108,7 +109,7 @@ public class MapPanel extends JPanel implements ActionListener {
      */
 
     public void setQuestionManager(QuestionManager qm) {
-	this.questionManager = qm;
+        this.questionManager = qm;
     }
 
     /**
@@ -116,7 +117,7 @@ public class MapPanel extends JPanel implements ActionListener {
      */
 
     public void setAnswer(JButton button) {
-	this.answer = button;
+        this.answer = button;
     }
 
     /**
@@ -126,12 +127,12 @@ public class MapPanel extends JPanel implements ActionListener {
      */
 
     public void actionPerformed(ActionEvent e) {
-	boolean answeredCorrectly = questionManager.mapClickCallback(e.getSource());
-	if (answeredCorrectly) {
-	    soundManager.playCorrectSound();
-	} else {
-	    soundManager.playIncorrectSound();
-	}
+        boolean answeredCorrectly = questionManager.mapClickCallback(e.getSource());
+        if (answeredCorrectly) {
+            soundManager.playCorrectSound();
+        } else {
+            soundManager.playIncorrectSound();
+        }
     }
 
     /**
@@ -139,11 +140,16 @@ public class MapPanel extends JPanel implements ActionListener {
      */
 
     public Country getCountry() {
-	return c;
+        return c;
     }
 
     public SoundManager getSoundManager() {
-	return soundManager;
+        return soundManager;
     }
 
+    public void startRound(){
+        for (int i = 0; i < statesArray.size(); i++) {
+            stateButtons[i].setVisible(true);
+        }
+    }
 }

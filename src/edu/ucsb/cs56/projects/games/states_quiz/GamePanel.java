@@ -37,33 +37,39 @@ public class GamePanel extends JPanel {
     private JScrollPane questionScrollPane;
     private JButton hintButton;
     private JButton startButton;
+    public JButton skipButton;
     private Runnable reloadFrame;
     private QuestionManager questionManager;
-    
+
     private StopWatch stopWatch;
-   
+
     public GamePanel(Runnable reloadFrame) {
         this.reloadFrame = reloadFrame;
         Font ourFont = new Font("Verdana", Font.BOLD, 24);
         mapPanel = new MapPanel();
 
         String questionText = "Welcome to the USA map quiz!\n";
-       
+
         questionTextArea = generateQuestionTextArea(4, 20, ourFont, questionText);
-       
+
 
         int hintX = (int) (.77 * SCREEN_WIDTH);
-        int hintY = (int) (.7 * SCREEN_HEIGHT); 
+        int hintY = (int) (.7 * SCREEN_HEIGHT);
         hintButton = this.generateHintButton(hintX, hintY, 180, 60, "Click For Hint");
-	mapPanel.add(hintButton);
+        mapPanel.add(hintButton);
         int homeX = (int) (.77 * SCREEN_WIDTH);
         int homeY = (int) (.55 * SCREEN_HEIGHT);
         JButton homeButton = this.generateHomeButton(homeX, homeY, 180, 60, "Main Menu");
         mapPanel.add(homeButton);
 
-	int startX = (int) (.77 * SCREEN_WIDTH);
-        int startY = (int) (.3 * SCREEN_HEIGHT); 
-	startButton = generateStartButton(startX, startY, 180, 60, "Start");
+        int startX = (int) (.77 * SCREEN_WIDTH);
+        int startY = (int) (.3 * SCREEN_HEIGHT);
+        startButton = generateStartButton(startX, startY, 180, 60, "Start");
+
+        int skipX = (int) (.77 * SCREEN_WIDTH);
+        int skipY = (int) (.3 * SCREEN_HEIGHT);
+        skipButton = generateSkipButton(skipX, skipY, 180, 60, "Skip");
+        mapPanel.add(skipButton);
 
         this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -74,8 +80,8 @@ public class GamePanel extends JPanel {
 
         this.add(questionScrollPane, BorderLayout.SOUTH);
 
-	stopWatch = new StopWatch((int) (.8 * SCREEN_WIDTH), (int) (.4 * SCREEN_HEIGHT), 180, 80);
-	mapPanel.add(stopWatch);
+        stopWatch = new StopWatch((int) (.8 * SCREEN_WIDTH), (int) (.4 * SCREEN_HEIGHT), 180, 80);
+        mapPanel.add(stopWatch);
 
         this.setVisible(false);
         this.repaint();
@@ -85,21 +91,24 @@ public class GamePanel extends JPanel {
         return stopWatch;
     }
 
-    private JButton generateStartButton(int x, int y, int w, int h, String text){
-	startButton = new JButton();
-	mapPanel.add(startButton);
-	startButton.setText("<html>" + text + "</html>");
+    private JButton generateStartButton(int x, int y, int w, int h, String text) {
+        startButton = new JButton();
+        mapPanel.add(startButton);
+        startButton.setText("<html>" + text + "</html>");
         startButton.setVisible(true);
         startButton.setBounds(x, y, w, h);
-        startButton.addActionListener(e ->{
-	    stopWatch.start();
-	    startButton.setVisible(false);
-	    revalidate();
-	    repaint();
-	    });
-	return startButton;
+        startButton.addActionListener(e -> {
+            stopWatch.start();
+            startButton.setVisible(false);
+            setSkipButtonVisible(true);
+            revalidate();
+            repaint();
+            mapPanel.startRound();
+            questionManager.askNextQuestion();
+        });
+        return startButton;
     }
-    
+
     private JButton generateHomeButton(int x, int y, int w, int h, String text) {
         JButton homeButton = new JButton();
         homeButton.setText("<html>" + text + "</html>");
@@ -107,12 +116,12 @@ public class GamePanel extends JPanel {
         homeButton.setVisible(true);
         homeButton.setBounds(x, y, w, h);
         homeButton.addActionListener(e -> {
-		questionManager.endRound();
-		reloadFrame.run();
-	    });
+            questionManager.endRound();
+            reloadFrame.run();
+        });
         return homeButton;
     }
-    
+
     /**
      * @param x    x coord of hintButton
      * @param y    y coord of hintButton
@@ -130,15 +139,28 @@ public class GamePanel extends JPanel {
         hintButton.setBounds(x, y, w, h);
         hintButton.addActionListener(e -> {
 
-		State state = mapPanel.getQuestionManager().getCorrectState();
-		String stateHint = state.getQuadrant();
-		String capitalHint = "Capital's first letter: " + getFirstLetterOfCapital(state.getCapital());
-		hintButton.setText("<html>State is " + stateHint + " " + capitalHint + "</html>");
-		questionManager.isHintButtonClicked(true);
-	    });
+            State state = mapPanel.getQuestionManager().getCorrectState();
+            String stateHint = state.getQuadrant();
+            String capitalHint = "Capital's first letter: " + getFirstLetterOfCapital(state.getCapital());
+            hintButton.setText("<html>State is " + stateHint + " " + capitalHint + "</html>");
+            questionManager.isHintButtonClicked(true);
+        });
         return hintButton;
     }
-    
+
+    private JButton generateSkipButton(int x, int y, int w, int h, String text) {
+        JButton skipButton = new JButton();
+        skipButton.setText("<html>" + text + "</html>");
+        skipButton.setEnabled(true);
+        skipButton.setVisible(false);
+        skipButton.setBounds(x, y, w, h);
+        skipButton.addActionListener(e -> {
+            questionManager.setIsSkip(true);
+            questionManager.receiveAnswer(skipButton);
+        });
+        return skipButton;
+    }
+
 
     /**
      * @param rows rows of the question text area
@@ -156,10 +178,10 @@ public class GamePanel extends JPanel {
         questionScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         questionScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         questionScrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
-		public void adjustmentValueChanged(AdjustmentEvent e) {
-		    e.getAdjustable().setValue(e.getAdjustable().getMaximum());
-		}
-	    });
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+                e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+            }
+        });
         textArea.setFont(font);
         textArea.setEditable(false);
         textArea.append(text);
@@ -178,6 +200,10 @@ public class GamePanel extends JPanel {
         if (!b)
             hintButton.setText("Click For Hint");
         hintButton.setVisible(b);
+    }
+
+    public void setSkipButtonVisible(Boolean s) {
+        skipButton.setVisible(s);
     }
 
     /**
