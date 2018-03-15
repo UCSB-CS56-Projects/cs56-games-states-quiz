@@ -340,8 +340,9 @@ public class QuestionManager {
      */
 
     private AnswerOption checkCapital() {
-        StateErrorChecker errorChecker = new StateErrorChecker(states.get(currentQuestion).getName());
         AnswerOption answer = askCapital();
+        StateErrorChecker errorChecker = new StateErrorChecker(states.get(currentQuestion).getName());
+
         boolean isFirst = true;
         String otherDisplayText = "";
         while (answer == AnswerOption.INCORRECT) {
