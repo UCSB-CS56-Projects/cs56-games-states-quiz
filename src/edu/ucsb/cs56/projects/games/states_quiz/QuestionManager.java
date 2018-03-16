@@ -292,7 +292,7 @@ public class QuestionManager {
             return true;
         } else {
             gamePanel.getStopWatch().addPenalty();
-            if (this.getDifficulty().equals("Hard")) {
+            if (this.getDifficulty().equals("Medium") || this.getDifficulty().equals("Easy")) {
                 answerButton.setVisible(false);
                 this.hiddenButtons.add(answerButton);
             }
