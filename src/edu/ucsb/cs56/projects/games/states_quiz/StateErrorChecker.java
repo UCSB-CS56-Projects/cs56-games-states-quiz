@@ -41,14 +41,23 @@ class StateErrorChecker extends NameErrorChecker {
             closeness = "'re very close!";
         }
 
-
-
-
-        String returnThis = "";
-
-
         if (leastErrorsYet)
-            return new String(quality + " guess. That's the closest you've gotten!"); 
-        return new String(quality + " guess. You" + closeness);
+            return quality + " guess. That's the closest you've gotten!";
+        return quality + " guess. You" + closeness;
+    }
+
+    //for testing purposes
+    public static void main(String[] args) throws java.io.IOException {
+        String a = new String();
+        String b = new String();
+        StateErrorChecker checker;
+        java.io.BufferedReader consoleIn = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
+        while(a != "q") {
+            a = consoleIn.readLine();
+            b = consoleIn.readLine();
+            checker = new StateErrorChecker(a);
+
+            System.out.print(checker.numberOfErrors(b) + " - " + checker.guessCritique(b));
+        }
     }
 }

@@ -344,14 +344,12 @@ public class QuestionManager {
         StateErrorChecker errorChecker = new StateErrorChecker(states.get(currentQuestion).getName());
 
         boolean isFirst = true;
-        String otherDisplayText = "";
         while (answer == AnswerOption.INCORRECT) {
             if (isFirst) {
-                otherDisplayText = gamePanel.getQuestionTextArea().getAccessibleContext().getAccessibleText().getAtIndex(0,3);
-                gamePanel.appendQuestionTextArea(errorChecker.guessCritique(answer.getMessage()));
+                gamePanel.appendQuestionTextArea(errorChecker.guessCritique(AnswerOption.getCapital()));
                 isFirst = false;
-            }            
-            gamePanel.setQuestionTextArea(errorChecker.guessCritique(answer.getMessage()));
+            }
+            gamePanel.setQuestionTextArea(errorChecker.guessCritique(AnswerOption.getCapital()));
             answer = askCapital();
             this.guesses++;
             gamePanel.getStopWatch().addPenalty();
@@ -391,6 +389,7 @@ public void setIsSkip(boolean skip) {
         } else if ((s.toLowerCase()).equals((states.get(currentQuestion).getCapital()).toLowerCase())) {
             return AnswerOption.CORRECT;
         }
-        return AnswerOption.INCORRECT;
+        AnswerOption.setCapital(s);
+        return  AnswerOption.INCORRECT;
     }
 }
