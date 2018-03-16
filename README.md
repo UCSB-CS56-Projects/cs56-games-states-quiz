@@ -139,3 +139,15 @@ This game has plenty of room for improvement!
     - The hint from a previous question does not disappear until a new hint is available. Make it disappear!
     - Change the "Cancel" button to "Skip" in the States and Capitals mode (maybe deduct some points for that too)
     - Add skip option to all game modes.
+    
+## W18 FINAL REMARKS
+* To understand the gist of the project, you should look at QuestionManager first. Unfortunately, this class still needs refactoring to be more concise. It would be helpful to split up parts of QuestionManager into their own classes and/or move parts to GamePanel. Understanding how each class interacts with each other is tiresome, so creating a diagram could help show how everything works together. In addition to a better understanding, tests can be written so that future developers don't have to manually test not only their new feature, but also test that they didn't break anything along the way.
+
+### Ideas for future developers
+    -Refactor QuestionManager (split parts into different classes and/or move things to a more appropriate class)
+    -Improve GUI to get rid of ugly buttons and change the background map to something more pretty
+    -Possibly add a zoom feature
+    -High score screen shows up in places it shouldn't. Includes: when `Cancel` is pressed when entering a username. Pressing `Main Menu`.
+    -Add more countries
+    -Record the high scores. Right now, nothing is getting saved/printed
+    -Create test classes. Both unit and integration tests
