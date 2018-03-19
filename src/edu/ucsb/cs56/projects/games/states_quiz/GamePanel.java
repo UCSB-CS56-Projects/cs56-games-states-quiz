@@ -37,6 +37,7 @@ public class GamePanel extends JPanel {
     private JScrollPane questionScrollPane;
     private JButton hintButton;
     private JButton startButton;
+    public JButton skipButton;
     private Runnable reloadFrame;
     private QuestionManager questionManager;
 
@@ -64,6 +65,11 @@ public class GamePanel extends JPanel {
         int startX = (int) (.77 * SCREEN_WIDTH);
         int startY = (int) (.3 * SCREEN_HEIGHT);
         startButton = generateStartButton(startX, startY, 180, 60, "Start");
+
+        int skipX = (int) (.77 * SCREEN_WIDTH);
+        int skipY = (int) (.3 * SCREEN_HEIGHT);
+        skipButton = generateSkipButton(skipX, skipY, 180, 60, "Skip");
+        mapPanel.add(skipButton);
 
         this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -94,6 +100,7 @@ public class GamePanel extends JPanel {
         startButton.addActionListener(e -> {
             stopWatch.start();
             startButton.setVisible(false);
+            setSkipButtonVisible(true);
             revalidate();
             repaint();
             mapPanel.startRound();
@@ -141,6 +148,19 @@ public class GamePanel extends JPanel {
         return hintButton;
     }
 
+    private JButton generateSkipButton(int x, int y, int w, int h, String text) {
+        JButton skipButton = new JButton();
+        skipButton.setText("<html>" + text + "</html>");
+        skipButton.setEnabled(true);
+        skipButton.setVisible(false);
+        skipButton.setBounds(x, y, w, h);
+        skipButton.addActionListener(e -> {
+            questionManager.setIsSkip(true);
+            questionManager.receiveAnswer(skipButton);
+        });
+        return skipButton;
+    }
+
 
     /**
      * @param rows rows of the question text area
@@ -180,6 +200,10 @@ public class GamePanel extends JPanel {
         if (!b)
             hintButton.setText("Click For Hint");
         hintButton.setVisible(b);
+    }
+
+    public void setSkipButtonVisible(Boolean s) {
+        skipButton.setVisible(s);
     }
 
     /**
