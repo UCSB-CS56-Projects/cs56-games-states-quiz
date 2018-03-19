@@ -6,9 +6,18 @@ public enum AnswerOption {
     NO_ANSWER("Skipped! Moving on. ");
 
     private String message;
+    private static String optionalCapitalName;
 
     AnswerOption(String message) {
-	this.message = message;
+	    this.message = message;
+    }
+
+    public static void setCapital(String capitalName) {
+        AnswerOption.optionalCapitalName = capitalName;
+    }
+
+    public static String getCapital() {
+        return optionalCapitalName;
     }
 
     public String getMessage() {
